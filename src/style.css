@@ -1,39 +1,58 @@
 @import url("https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap");
 
+:root {
+  --main-primary-color: rgb(39, 39, 109);
+  --main-lighter-primary-color: rgb(106, 106, 177);
+}
+
 body {
   padding: 0;
   margin: 0;
   display: grid;
 }
 
+/* HEADER STYLING */
+
 header {
-  background-color: rgb(39, 39, 109);
+  background-color: var(--main-primary-color);
   padding: 0;
   margin: 0;
   position: fixed;
+  padding-bottom: 3.1px;
   width: 100%;
-  padding-bottom: 20px;
   border-bottom: 3px solid black;
 }
 
 .header-heading {
   color: white;
   padding-left: 50px;
+  padding-bottom: 0px;
   font-family: "Shippori Antique B1", sans-serif;
+  font-size: 50px;
+  margin-bottom: 0px;
 }
+
+/* SIDE-BAR STYLING */
 
 .side-bar {
   height: 100%;
-  width: 400px;
+  width: 380px;
+  padding-left: 20px;
   position: fixed;
   z-index: 1;
   top: 100px;
   left: 0;
-  background-color: rgb(106, 106, 177);
+  background-color: var(--main-lighter-primary-color);
   overflow-x: hidden;
   padding-top: 20px;
   margin-top: 12px;
+  font-family: "Shippori Antique B1", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
+
+/* MAIN CONTENT STYLING */
 
 .content {
   margin-left: 400px;
@@ -42,6 +61,8 @@ header {
   padding-top: 40px;
   padding-right: 50px;
 }
+
+/* TODO-ITEM STYLING */
 
 .todo-item {
   background-color: rgb(236, 240, 240);
@@ -58,14 +79,22 @@ header {
 }
 
 .todo-item:hover {
-  box-shadow: 2px 2px 5px 1px rgba(90, 90, 92, 0.2);
+  box-shadow: 2px 2px 5px 1px grey;
   transform: scale(1.01);
 }
 
-.todo-actions {
+.todo-end {
   display: flex;
   align-items: center;
   flex-direction: row;
+}
+
+.finished-task-checkbox {
+  transform: scale(1.4);
+}
+
+.todo-date {
+  margin-right: 10px;
 }
 
 .todo-details-button {
@@ -73,7 +102,7 @@ header {
   margin-right: 20px;
   background-color: rgb(236, 240, 240);
   border-style: none;
-  border: 2px solid rgb(39, 39, 109);
+  border: 2px solid var(--main-primary-color);
   border-radius: 4px;
   color: rgb(39, 39, 109);
   height: 30px;
@@ -83,7 +112,7 @@ header {
 }
 
 .todo-details-button:hover {
-  background-color: rgb(39, 39, 109);
+  background-color: var(--main-primary-color);
   color: white;
 }
 
@@ -96,7 +125,7 @@ header {
 }
 
 .edit-todo-button:hover {
-  color: rgb(106, 106, 177);
+  color: var(--main-lighter-primary-color);
 }
 
 .remove-todo-item {
@@ -116,4 +145,285 @@ header {
 .remove-todo-item:hover {
   background-color: #fc5353;
   color: white;
+}
+
+/* MODAL STYLING FOR NEW TODO, EDIT TODO AND TODO DESCRIPTION*/
+
+.modal-background {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  position: relative;
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 8rem;
+  font-family: "Shippori Antique B1", sans-serif;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  margin: 0;
+  padding: 9px;
+  background-color: #fc5353;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+/* EDIT TODO AND NEW TODO MODAL STYLING */
+
+.todo-description {
+  width: 850px;
+  font-size: 20px;
+  height: 200px;
+  text-align: left;
+  font-family: "Shippori Antique B1", sans-serif;
+  resize: none;
+  border: none;
+}
+
+.todo-description:focus {
+  outline: none;
+}
+
+.todo-modal-due-date {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-modal-due-date-input {
+  margin-left: 10px;
+  font-family: "Shippori Antique B1", sans-serif;
+  border-radius: 5px;
+  border: 1px solid var(--main-primary-color);
+  color: var(--main-primary-color);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 15px;
+}
+
+.todo-modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.todo-modal-priority {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-modal-priority-header {
+  margin-right: 19px;
+}
+
+.todo-modal-priority-button {
+  margin: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  border-style: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.low-priority-button {
+  border: 1px solid green;
+  color: green;
+  transition: 0.3s;
+}
+
+.low-priority-button:hover {
+  color: white;
+  background-color: green;
+}
+
+.medium-priority-button {
+  border: 1px solid orange;
+  color: orange;
+  transition: 0.3s;
+}
+
+.medium-priority-button:hover {
+  color: white;
+  background-color: orange;
+}
+
+.high-priority-button {
+  border: 1px solid red;
+  color: red;
+  transition: 0.3s;
+}
+
+.high-priority-button:hover {
+  color: white;
+  background-color: red;
+}
+
+/* EDIT TODO-ITEM MODAL STYLING */
+
+.edit-todo-background-hidden {
+  display: none;
+}
+
+.edit-todo-name-header {
+  margin: 0px;
+  padding: 0px;
+}
+
+.submit-edit-todo-modal {
+  margin: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  border: 1px solid var(--main-primary-color);
+  color: var(--main-primary-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-edit-todo-modal:hover {
+  color: white;
+  background-color: var(--main-primary-color);
+}
+
+/* TODO DESCRIPTION MODAL  */
+
+.todo-description-modal {
+  padding: 0;
+}
+
+.todo-description-background-hidden {
+  display: none;
+}
+
+.todo-description-main-header {
+  padding-top: 10px;
+  padding-left: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 0;
+  width: 98.9%;
+  border-bottom: 1px solid black;
+  background-color: rgb(248, 248, 248);
+}
+
+.todo-description-header {
+  padding: 0;
+}
+
+.todo-description-description-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: row;
+  padding-left: 10px;
+}
+
+.todo-description-paragraph {
+  font-size: 20px;
+  padding-top: 5px;
+  margin-left: 10px;
+}
+
+.todo-description-section-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+}
+
+.todo-description-span {
+  font-size: 20px;
+  padding-top: 5px;
+  margin-left: 10px;
+}
+
+.medium-priority {
+  color: orange;
+}
+
+/* NEW TODO ITEM MODAL */
+
+.new-todo-item-background-hidden {
+  display: none;
+}
+
+.new-todo-item-name {
+  font-size: 20px;
+  text-align: left;
+  font-family: "Shippori Antique B1", sans-serif;
+  resize: none;
+  border: none;
+}
+
+.new-todo-item-name:focus {
+  outline: none;
+}
+
+.new-todo-item-description {
+  width: 850px;
+  font-size: 20px;
+  height: 200px;
+  text-align: left;
+  font-family: "Shippori Antique B1", sans-serif;
+  resize: none;
+  border: none;
+}
+
+.new-todo-item-description:focus {
+  outline: none;
+}
+
+.submit-new-todo-modal {
+  margin: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+  border: 1px solid var(--main-primary-color);
+  color: var(--main-primary-color);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-new-todo-modal:hover {
+  color: white;
+  background-color: var(--main-primary-color);
 }
