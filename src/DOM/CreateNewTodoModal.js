@@ -6,6 +6,7 @@ export function newTodoModal() {
   const modalBackgroundNewTodo = document.createElement("div");
   modalBackgroundNewTodo.classList.add("modal-background");
   modalBackgroundNewTodo.setAttribute("id", "modal-background-new-todo");
+
   // CREATE MODAL ELEMENTS
 
   const modalContainer = document.createElement("div");
@@ -21,6 +22,7 @@ export function newTodoModal() {
   const todoItemNameInput = document.createElement("input");
   todoItemNameInput.setAttribute("type", "text");
   todoItemNameInput.setAttribute("placeholder", "Title of todo item:");
+  todoItemNameInput.classList.add("todo-item-name-header");
   todoItemNameInput.classList.add("new-todo-item-name");
 
   modalContainer.append(todoItemNameInput);
@@ -84,7 +86,7 @@ export function newTodoModal() {
   highPriorityButton.classList.add("high-priority-button");
   highPriorityButton.textContent = "High";
 
-  priorityContainer.append(mediumPriorityButton);
+  priorityContainer.append(highPriorityButton);
 
   todoModalFooter.append(priorityContainer);
 

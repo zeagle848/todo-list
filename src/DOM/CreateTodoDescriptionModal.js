@@ -11,6 +11,9 @@ export function todoDescriptionModal(
 
   const modalBackgroundTodoDescription = document.createElement("div");
   modalBackgroundTodoDescription.classList.add("modal-background");
+  modalBackgroundTodoDescription.classList.add(
+    "todo-description-background-visible"
+  );
   modalBackgroundTodoDescription.setAttribute(
     "id",
     "modal-background-todo-description"
@@ -139,18 +142,14 @@ export function todoDescriptionModal(
   // CLOSE MODAL FUNCTIONS
   exitModal.addEventListener("click", () => {
     modalBackgroundTodoDescription.classList.remove(
-      "new-todo-item-background-visible"
+      "todo-description-background-visible"
     );
-
-    todoItemNameInput.value = "";
-    todoItemDescriptionInput.value = "";
-    dateInput.value = "";
   });
 
   modalBackgroundTodoDescription.addEventListener("click", (event) => {
     if (event.target === modalBackgroundTodoDescription) {
       modalBackgroundTodoDescription.classList.remove(
-        "new-todo-item-background-visible"
+        "todo-description-background-visible"
       );
     }
   });

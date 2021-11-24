@@ -75,6 +75,13 @@ header {
   transform: scale(1.05);
 }
 
+.add-todo-item-button:focus {
+  color: white;
+  background-color: green;
+  box-shadow: 2px 2px 5px 1px var(--main-primary-color);
+  outline: none;
+}
+
 /* MAIN CONTENT STYLING */
 
 .content {
@@ -191,7 +198,7 @@ header {
   width: 900px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  padding: 0;
   position: relative;
   border-radius: 5px;
   background-color: white;
@@ -211,7 +218,22 @@ header {
   border-bottom-left-radius: 3px;
 }
 
+.todo-item-name-header {
+  padding-top: 10px;
+  padding-left: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 0;
+  width: 98.9%;
+  border-bottom: 1px solid black;
+  background-color: rgb(248, 248, 248);
+}
+
 /* EDIT TODO AND NEW TODO MODAL STYLING */
+
+.edit-todo-background-visible {
+  display: block;
+}
 
 .todo-description {
   width: 850px;
@@ -221,6 +243,7 @@ header {
   font-family: "Shippori Antique B1", sans-serif;
   resize: none;
   border: none;
+  margin-left: 10px;
 }
 
 .todo-description:focus {
@@ -232,6 +255,7 @@ header {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
 }
 
 .todo-modal-due-date-input {
@@ -260,6 +284,7 @@ header {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
 }
 
 .todo-modal-priority-header {
@@ -290,6 +315,11 @@ header {
   background-color: green;
 }
 
+.low-priority-button:focus {
+  color: white;
+  background-color: green;
+}
+
 .medium-priority-button {
   border: 1px solid orange;
   color: orange;
@@ -297,6 +327,11 @@ header {
 }
 
 .medium-priority-button:hover {
+  color: white;
+  background-color: orange;
+}
+
+.medium-priority-button:focus {
   color: white;
   background-color: orange;
 }
@@ -312,15 +347,92 @@ header {
   background-color: red;
 }
 
+.high-priority-button:focus {
+  color: white;
+  background-color: red;
+}
+
 /* EDIT TODO-ITEM MODAL STYLING */
 
-.edit-todo-background-visible {
-  /* display: block; */
+.edit-todo-modal {
+  padding: 0;
 }
 
 .edit-todo-name-header {
-  margin: 0px;
-  padding: 0px;
+  padding-top: 10px;
+  padding-left: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  margin-top: 0;
+  width: 98.9%;
+  border-bottom: 1px solid black;
+  background-color: rgb(248, 248, 248);
+}
+
+.project-edit-todo-modal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.project-edit-todo-span {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.project-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-button {
+  background-color: var(--main-lighter-primary-color);
+  color: white;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 3px;
+}
+
+.dropdown-content span {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.first-dropdown-element {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.last-dropdown-element {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.dropdown-content span:hover {
+  background-color: var(--main-lighter-primary-color);
+  color: white;
+}
+
+.project-dropdown:hover .dropdown-content {
+  display: block;
 }
 
 .submit-edit-todo-modal {
@@ -415,11 +527,12 @@ header {
 }
 
 .new-todo-item-name {
-  font-size: 20px;
+  font-size: 24px;
   text-align: left;
   font-family: "Shippori Antique B1", sans-serif;
   resize: none;
   border: none;
+  width: 888px;
 }
 
 .new-todo-item-name:focus {
