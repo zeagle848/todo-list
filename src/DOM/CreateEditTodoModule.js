@@ -1,13 +1,16 @@
-export function editTodoModule(
+import { updateTodoList } from "./updateTodoList";
+export function editTodoModal(
   name,
   description,
   priority,
-  date,
-  selectedProject,
-  allProjects
+  dueDate,
+  selectedProject = "None",
+  todoID,
+  myTodo
 ) {
   const capitalizedProjectName =
     selectedProject.charAt(0).toUpperCase() + selectedProject.slice(1);
+  const allProjects = myTodo.getProjectList();
   // CREATE ROOT ELEMENTS
   const rootElement = document.getElementById("root");
   const fragment = document.createDocumentFragment();
@@ -55,7 +58,7 @@ export function editTodoModule(
   const dateContent = document.createElement("input");
   dateContent.classList.add("todo-modal-due-date-input");
   dateContent.setAttribute("type", "date");
-  dateContent.value = date;
+  dateContent.value = dueDate;
 
   dateContainer.append(dateContent);
 
@@ -77,36 +80,66 @@ export function editTodoModule(
 
   priorityContainer.append(priorityHeader);
 
-  const lowPriorityButton = document.createElement("button");
-  lowPriorityButton.classList.add("todo-modal-priority-button");
-  lowPriorityButton.classList.add("low-priority-button");
-  lowPriorityButton.textContent = "Low";
+  const lowPriorityLabel = document.createElement("label");
+  lowPriorityLabel.setAttribute("for", "low-priority-radio");
+  lowPriorityLabel.textContent = "Low";
+  lowPriorityLabel.classList.add("low-priority-label");
 
-  priorityContainer.append(lowPriorityButton);
+  priorityContainer.append(lowPriorityLabel);
 
-  const mediumPriorityButton = document.createElement("button");
-  mediumPriorityButton.classList.add("todo-modal-priority-button");
-  mediumPriorityButton.classList.add("medium-priority-button");
-  mediumPriorityButton.textContent = "Medium";
+  const lowPriorityRadio = document.createElement("input");
+  lowPriorityRadio.setAttribute("type", "radio");
+  lowPriorityRadio.setAttribute("id", "low-priority-radio");
+  lowPriorityRadio.setAttribute("value", "low");
+  lowPriorityRadio.setAttribute("name", "todo-priority");
+  lowPriorityRadio.classList.add("priority-radio");
+  lowPriorityRadio.classList.add("low-priority-radio");
 
-  priorityContainer.append(mediumPriorityButton);
+  priorityContainer.append(lowPriorityRadio);
 
-  const highPriorityButton = document.createElement("button");
-  highPriorityButton.classList.add("todo-modal-priority-button");
-  highPriorityButton.classList.add("high-priority-button");
-  highPriorityButton.textContent = "High";
+  const mediumPriorityLabel = document.createElement("label");
+  mediumPriorityLabel.setAttribute("for", "medium-priority-radio");
+  mediumPriorityLabel.textContent = "Medium";
+  mediumPriorityLabel.classList.add("medium-priority-label");
 
-  priorityContainer.append(highPriorityButton);
+  priorityContainer.append(mediumPriorityLabel);
+
+  const mediumPriorityRadio = document.createElement("input");
+  mediumPriorityRadio.setAttribute("type", "radio");
+  mediumPriorityRadio.setAttribute("id", "medium-priority-radio");
+  mediumPriorityRadio.setAttribute("value", "meduim");
+  mediumPriorityRadio.setAttribute("name", "todo-priority");
+  mediumPriorityRadio.classList.add("priority-radio");
+  mediumPriorityRadio.classList.add("medium-priority-radio");
+
+  priorityContainer.append(mediumPriorityRadio);
+
+  const highPriorityLabel = document.createElement("label");
+  highPriorityLabel.setAttribute("for", "high-priority-radio");
+  highPriorityLabel.textContent = "High";
+  highPriorityLabel.classList.add("high-priority-label");
+
+  priorityContainer.append(highPriorityLabel);
+
+  const highPriorityRadio = document.createElement("input");
+  highPriorityRadio.setAttribute("type", "radio");
+  highPriorityRadio.setAttribute("id", "high-priority-radio");
+  highPriorityRadio.setAttribute("value", "high");
+  highPriorityRadio.setAttribute("name", "todo-priority");
+  highPriorityRadio.classList.add("priority-radio");
+  highPriorityRadio.classList.add("high-priority-radio");
+
+  priorityContainer.append(highPriorityRadio);
 
   switch (priority) {
     case "low":
-      lowPriorityButton.focus();
+      lowPriorityRadio.checked = true;
       break;
     case "medium":
-      mediumPriorityButton.focus();
+      mediumPriorityRadio.checked = true;
       break;
     case "high":
-      highPriorityButton.focus();
+      highPriorityRadio.checked = true;
       break;
     default:
       alert("NO PRIORITY BUTTON GIVEN ERROR");
@@ -131,7 +164,11 @@ export function editTodoModule(
   const dropdownButton = document.createElement("button");
   dropdownButton.classList.add("dropdown-button");
 
-  dropdownButton.textContent = capitalizedProjectName;
+  if (capitalizedProjectName === "None") {
+    dropdownButton.textContent = "Choose project...";
+  } else {
+    dropdownButton.textContent = capitalizedProjectName;
+  }
 
   projectDropdownContainer.append(dropdownButton);
 
@@ -148,12 +185,37 @@ export function editTodoModule(
     if (currentIndex === 0) {
       dropDownElement.classList.add("first-dropdown-element");
     }
-
-    if (currentIndex === allProjects.length - 1) {
-      dropDownElement.classList.add("last-drop-down-element");
-    }
-
     dropdownContent.append(dropDownElement);
+  });
+
+  // ADD EVENT LISTENER FOR SELECTING PROJECT
+  dropdownContent.addEventListener("click", (e) => {
+    const selectedProject = e.target.textContent;
+    if (selectedProject !== "+ New Project") {
+      dropdownButton.textContent = e.target.textContent;
+    }
+  });
+
+  const dropDownNewProject = document.createElement("span");
+  dropDownNewProject.textContent = "+ New Project";
+  dropDownNewProject.classList.add("last-drop-down-element");
+
+  dropdownContent.append(dropDownNewProject);
+  //ADD EVENT LISTENER FOR ADDING NEW PROJECT
+  dropDownNewProject.addEventListener("click", () => {
+    const newProjectName = prompt("Project name").trim();
+    if (newProjectName === null || newProjectName === "") {
+    } else {
+      myTodo.addProject(newProjectName);
+      dropdownButton.textContent = newProjectName;
+      dropDownNewProject.parentElement.removeChild(dropDownNewProject);
+      const newDropDownElement = document.createElement("span");
+      newDropDownElement.textContent = newProjectName;
+
+      dropdownContent.append(newDropDownElement);
+
+      dropdownContent.append(dropDownNewProject);
+    }
   });
 
   projectDropdownContainer.append(dropdownContent);
@@ -181,49 +243,63 @@ export function editTodoModule(
   // CLOSE MODAL FUNCTIONS
 
   exitModal.addEventListener("click", () => {
-    modalBackgroundEditTodo.classList.remove("edit-todo-background-visible");
+    closeModal();
+  });
 
+  modalBackgroundEditTodo.addEventListener("click", (event) => {
+    if (event.target === modalBackgroundEditTodo) {
+      closeModal();
+    }
+  });
+
+  // SUBMIT BUTTON EVENT HANDLER
+
+  submitTodoButton.addEventListener("click", () => {
+    const finalDescription = todoDetails.textContent;
+    const finalDueDate = dateContent.value;
+    let finalPriority;
+    const finalProject = dropdownButton.textContent;
+
+    if (lowPriorityRadio.checked === true) {
+      finalPriority = "low";
+    }
+    if (mediumPriorityRadio.checked === true) {
+      finalPriority = "medium";
+    }
+    if (highPriorityRadio.checked === true) {
+      finalPriority = "high";
+    }
+
+    myTodo.editTodoItem(
+      finalDescription,
+      finalDueDate,
+      finalPriority,
+      finalProject,
+      todoID
+    );
+    updateTodoList(myTodo);
+    closeModal();
+  });
+
+  function closeModal() {
+    modalBackgroundEditTodo.classList.remove("edit-todo-background-visible");
     todoDetails.value = description;
-    dateContent.value = date;
+    dateContent.value = dueDate;
     dropdownButton.textContent = capitalizedProjectName;
 
     switch (priority) {
       case "low":
-        lowPriorityButton.focus();
+        lowPriorityRadio.checked = true;
         break;
       case "medium":
-        mediumPriorityButton.focus();
+        mediumPriorityRadio.checked = true;
         break;
       case "high":
-        highPriorityButton.focus();
+        highPriorityRadio.checked = true;
         break;
       default:
         alert("NO PRIORITY BUTTON GIVEN ERROR");
         break;
     }
-  });
-
-  modalBackgroundEditTodo.addEventListener("click", (event) => {
-    if (event.target === modalBackgroundEditTodo) {
-      modalBackgroundEditTodo.classList.remove("edit-todo-background-visible");
-      todoDetails.value = description;
-      dateContent.value = date;
-      dropdownButton.textContent = capitalizedProjectName;
-
-      switch (priority) {
-        case "low":
-          lowPriorityButton.focus();
-          break;
-        case "medium":
-          mediumPriorityButton.focus();
-          break;
-        case "high":
-          highPriorityButton.focus();
-          break;
-        default:
-          alert("NO PRIORITY BUTTON GIVEN ERROR");
-          break;
-      }
-    }
-  });
+  }
 }
