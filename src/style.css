@@ -3,6 +3,7 @@
 :root {
   --main-primary-color: rgb(39, 39, 109);
   --main-lighter-primary-color: rgb(106, 106, 177);
+  --remove-or-exit: #fc5353;
 }
 
 body {
@@ -53,11 +54,63 @@ header {
 }
 
 .side-bar-projects {
-  height: 190px;
+  height: 290px;
   width: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   text-align: justify;
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  border-top: 2px solid var(--main-primary-color);
+  border-bottom: 2px solid var(--main-primary-color);
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.project-item-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-project {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  visibility: hidden;
+  background-color: var(--remove-or-exit);
+  font-size: 20px;
+  border-radius: 3px;
+  border: solid 2px black;
+}
+
+.remove-project-visible {
+  visibility: visible;
+}
+
+.number-of-todo-items {
+  font-size: 20px;
+  background-color: rgb(147, 147, 211);
+  margin-right: 20px;
+  width: 43px;
+  height: 40px;
+  padding-bottom: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--main-primary-color);
+  border-radius: 50%;
 }
 
 .add-todo-item-button {
@@ -192,7 +245,7 @@ header {
 }
 
 .remove-todo-item:hover {
-  background-color: #fc5353;
+  background-color: var(--remove-or-exit);
   color: white;
 }
 
@@ -232,7 +285,7 @@ header {
   cursor: pointer;
   margin: 0;
   padding: 9px;
-  background-color: #fc5353;
+  background-color: var(--remove-or-exit);
   border-top-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }

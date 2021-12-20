@@ -2,6 +2,7 @@ import css from "./style.css";
 import { newTodoModal } from "./DOM/CreateNewTodoModal.js";
 import { updateTodoList } from "./DOM/updateTodoList";
 import { Todo } from "./stores/todo.js";
+import { updateProjectList } from "./DOM/UpdateProjectList";
 
 const myTodo = new Todo();
 
@@ -19,3 +20,4 @@ addTodoItemButton.addEventListener("click", () => {
 // SHOW THE NEW TODO MODAL
 newTodoModal(myTodo);
 updateTodoList(myTodo);
+updateProjectList(myTodo);

@@ -1,6 +1,6 @@
 import { editTodoModal } from "./CreateEditTodoModule.js";
 import { todoDescriptionModal } from "./CreateTodoDescriptionModal.js";
-
+import { updateProjectList } from "./UpdateProjectList.js";
 export function newTodoItem(
   name,
   description,
@@ -95,6 +95,7 @@ export function newTodoItem(
   removeTodoItem.addEventListener("click", () => {
     myTodo.removeTodoItem(ID);
     removeTodoItem.parentElement.parentElement.remove();
+    updateProjectList(myTodo);
   });
 
   todoItemEnd.append(removeTodoItem);

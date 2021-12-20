@@ -1,4 +1,5 @@
 import { updateTodoList } from "./updateTodoList";
+import { updateProjectList } from "./UpdateProjectList";
 export function editTodoModal(
   name,
   description,
@@ -177,7 +178,7 @@ export function editTodoModal(
 
   allProjects.forEach((project, currentIndex) => {
     const dropDownElement = document.createElement("span");
-    const projectName = project;
+    const projectName = project.projectName;
     const projectNameFirstCharCapitalize =
       projectName.charAt(0).toUpperCase() + projectName.slice(1);
     dropDownElement.textContent = projectNameFirstCharCapitalize;
@@ -206,7 +207,7 @@ export function editTodoModal(
     const newProjectName = prompt("Project name").trim();
     if (newProjectName === null || newProjectName === "") {
     } else {
-      myTodo.addProject(newProjectName);
+      myTodo.addProject(newProjectName, false);
       dropdownButton.textContent = newProjectName;
       dropDownNewProject.parentElement.removeChild(dropDownNewProject);
       const newDropDownElement = document.createElement("span");
@@ -278,6 +279,7 @@ export function editTodoModal(
       todoID
     );
     updateTodoList(myTodo);
+    updateProjectList(myTodo);
     closeModal();
   });
 

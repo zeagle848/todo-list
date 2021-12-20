@@ -1,5 +1,6 @@
 import { format, endOfDay } from "date-fns";
 import { updateTodoList } from "./updateTodoList.js";
+import { updateProjectList } from "./UpdateProjectList.js";
 export function newTodoModal(myTodo) {
   const allProjects = myTodo.getProjectList();
 
@@ -154,10 +155,8 @@ export function newTodoModal(myTodo) {
   // DYNAMICALLY POPULATE DROPDOWN MENU WITH SAVED PROJECTS
   allProjects.forEach((project, currentIndex) => {
     const dropDownElement = document.createElement("span");
-    const projectName = project;
-    const projectNameFirstCharCapitalize =
-      projectName.charAt(0).toUpperCase() + projectName.slice(1);
-    dropDownElement.textContent = projectNameFirstCharCapitalize;
+    const projectName = project.projectName;
+    dropDownElement.textContent = projectName;
 
     if (currentIndex === 0) {
       dropDownElement.classList.add("first-dropdown-element");
@@ -182,14 +181,13 @@ export function newTodoModal(myTodo) {
   //ADD EVENT LISTENER FOR ADDING NEW PROJECT
   dropDownNewProject.addEventListener("click", () => {
     const newProjectName = prompt("Project name");
-    console.log(newProjectName);
     if (
       newProjectName === null ||
       newProjectName === "" ||
       newProjectName === " "
     ) {
     } else {
-      myTodo.addProject(newProjectName);
+      myTodo.addProject(newProjectName, false);
       dropdownButton.textContent = newProjectName;
       dropDownNewProject.parentElement.removeChild(dropDownNewProject);
       const newDropDownElement = document.createElement("span");
@@ -278,6 +276,7 @@ export function newTodoModal(myTodo) {
         false
       );
       updateTodoList(myTodo);
+      updateProjectList(myTodo);
       closeForm();
     }
   });

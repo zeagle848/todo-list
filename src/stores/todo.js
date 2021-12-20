@@ -11,7 +11,6 @@ export class Todo {
 
   #retrieveProjectList() {
     try {
-      console.log(sessionStorage.getItem("my_project_list"));
       return JSON.parse(sessionStorage.getItem("my_project_list"));
     } catch (error) {
       console.error(error);
@@ -47,10 +46,6 @@ export class Todo {
     return this.projectList;
   }
 
-  todoItem(name, description, priority, dueDate, project, id, isComplete) {
-    return { name, description, priority, dueDate, project, id, isComplete };
-  }
-
   addTodoItem(name, description, priority, dueDate, project, id, isComplete) {
     this.todoList.push({
       name,
@@ -61,12 +56,16 @@ export class Todo {
       id,
       isComplete,
     });
+
     this.#sortTodoList();
     this.#storeTodoList();
   }
 
-  addProject(project) {
-    this.projectList.push(project);
+  addProject(projectName, exists) {
+    this.projectList.push({
+      projectName,
+      exists,
+    });
     this.#storeProjectList();
   }
 
@@ -114,6 +113,18 @@ export class Todo {
         this.#sortTodoList();
         this.#storeTodoList();
       }
+    }
+  }
+
+  getProjectNumbers(projectName) {
+    const numberOfProjects = this.todoList.filter((todoItem) => {
+      return todoItem.project === projectName;
+    }).length;
+
+    if (numberOfProjects == false) {
+      return 0;
+    } else {
+      return numberOfProjects;
     }
   }
 }
