@@ -9,8 +9,6 @@ export function editTodoModal(
   todoID,
   myTodo
 ) {
-  const capitalizedProjectName =
-    selectedProject.charAt(0).toUpperCase() + selectedProject.slice(1);
   const allProjects = myTodo.getProjectList();
   // CREATE ROOT ELEMENTS
   const rootElement = document.getElementById("root");
@@ -40,11 +38,11 @@ export function editTodoModal(
 
   modalContainer.append(todoName);
 
-  const todoDetails = document.createElement("textarea");
-  todoDetails.classList.add("todo-description");
-  todoDetails.textContent = description;
+  const todoDescription = document.createElement("textarea");
+  todoDescription.classList.add("todo-description");
+  todoDescription.textContent = description;
 
-  modalContainer.append(todoDetails);
+  modalContainer.append(todoDescription);
 
   // CREATE DUE DATE ELEMENTS
 
@@ -165,10 +163,10 @@ export function editTodoModal(
   const dropdownButton = document.createElement("button");
   dropdownButton.classList.add("dropdown-button");
 
-  if (capitalizedProjectName === "None") {
+  if (selectedProject === "None") {
     dropdownButton.textContent = "Choose project...";
   } else {
-    dropdownButton.textContent = capitalizedProjectName;
+    dropdownButton.textContent = selectedProject;
   }
 
   projectDropdownContainer.append(dropdownButton);
@@ -179,9 +177,7 @@ export function editTodoModal(
   allProjects.forEach((project, currentIndex) => {
     const dropDownElement = document.createElement("span");
     const projectName = project.projectName;
-    const projectNameFirstCharCapitalize =
-      projectName.charAt(0).toUpperCase() + projectName.slice(1);
-    dropDownElement.textContent = projectNameFirstCharCapitalize;
+    dropDownElement.textContent = projectName;
 
     if (currentIndex === 0) {
       dropDownElement.classList.add("first-dropdown-element");
@@ -256,7 +252,7 @@ export function editTodoModal(
   // SUBMIT BUTTON EVENT HANDLER
 
   submitTodoButton.addEventListener("click", () => {
-    const finalDescription = todoDetails.textContent;
+    const finalDescription = todoDescription.textContent;
     const finalDueDate = dateContent.value;
     let finalPriority;
     const finalProject = dropdownButton.textContent;
@@ -285,9 +281,9 @@ export function editTodoModal(
 
   function closeModal() {
     modalBackgroundEditTodo.classList.remove("edit-todo-background-visible");
-    todoDetails.value = description;
+    todoDescription.value = description;
     dateContent.value = dueDate;
-    dropdownButton.textContent = capitalizedProjectName;
+    dropdownButton.textContent = selectedProject;
 
     switch (priority) {
       case "low":

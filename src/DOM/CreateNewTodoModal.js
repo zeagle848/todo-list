@@ -180,12 +180,8 @@ export function newTodoModal(myTodo) {
   dropdownContent.append(dropDownNewProject);
   //ADD EVENT LISTENER FOR ADDING NEW PROJECT
   dropDownNewProject.addEventListener("click", () => {
-    const newProjectName = prompt("Project name");
-    if (
-      newProjectName === null ||
-      newProjectName === "" ||
-      newProjectName === " "
-    ) {
+    const newProjectName = prompt("Project name").trim();
+    if (newProjectName === null || newProjectName === "") {
     } else {
       myTodo.addProject(newProjectName, false);
       dropdownButton.textContent = newProjectName;

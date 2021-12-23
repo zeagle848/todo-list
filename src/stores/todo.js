@@ -71,10 +71,14 @@ export class Todo {
 
   removeProject(project) {
     for (let i = 0; i < this.projectList.length; i++) {
-      if (this.projectList[i] === project) {
+      if (this.projectList[i].projectName === project) {
         this.projectList.splice(i, 1);
       }
     }
+    this.todoList = this.todoList.filter((todoItem) => {
+      return todoItem.project !== project;
+    });
+    this.#storeTodoList();
     this.#storeProjectList();
   }
 

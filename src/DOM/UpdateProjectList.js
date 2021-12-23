@@ -1,3 +1,5 @@
+import { updateTodoList } from "./updateTodoList";
+
 export function updateProjectList(myTodo) {
   const projectContainer = document.getElementById("side-bar-projects");
 
@@ -8,6 +10,7 @@ export function updateProjectList(myTodo) {
       const numberElement = document.querySelector(
         `[data-project-name = '${project.projectName}']`
       );
+      console.log(numberElement);
       numberElement.textContent = myTodo.getProjectNumbers(project.projectName);
     } else {
       const numOfTodoItems = myTodo.getProjectNumbers(project.projectName);
@@ -36,6 +39,19 @@ export function updateProjectList(myTodo) {
       const removeProject = document.createElement("div");
       removeProject.classList.add("remove-project");
       removeProject.textContent = "X";
+
+      removeProject.addEventListener("click", () => {
+        console.log("Hello");
+        let safeToRemove = confirm(
+          "Deleting project will delete all todo items associated with it. Are you sure you want to delete this project?"
+        );
+
+        if (safeToRemove) {
+          myTodo.removeProject(project.projectName);
+          removeProject.parentElement.parentElement.remove();
+          updateTodoList(myTodo);
+        }
+      });
 
       projectItemEnd.append(removeProject);
 
