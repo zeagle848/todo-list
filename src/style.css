@@ -3,6 +3,7 @@
 :root {
   --main-primary-color: rgb(39, 39, 109);
   --main-lighter-primary-color: rgb(106, 106, 177);
+  --main-lightest-primary-color: rgb(147, 147, 211);
   --remove-or-exit: #fc5353;
 }
 
@@ -22,6 +23,7 @@ header {
   padding-bottom: 3.1px;
   width: 100%;
   border-bottom: 3px solid black;
+  z-index: 1;
 }
 
 .header-heading {
@@ -53,6 +55,34 @@ header {
   align-items: flex-start;
 }
 
+.home-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  cursor: pointer;
+  height: 70px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.date-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  cursor: pointer;
+  height: 65px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
 .side-bar-projects {
   height: 290px;
   width: 300px;
@@ -70,8 +100,17 @@ header {
   height: 60px;
   border-top: 2px solid var(--main-primary-color);
   border-bottom: 2px solid var(--main-primary-color);
+  border-radius: 5px;
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.project-item > h2 {
+  margin-left: 10px;
+}
+
+.project-item-selected {
+  background-color: var(--main-lightest-primary-color);
 }
 
 .project-item-end {
@@ -90,9 +129,9 @@ header {
   cursor: pointer;
   visibility: hidden;
   background-color: var(--remove-or-exit);
-  font-size: 20px;
+  font-size: 16px;
   border-radius: 3px;
-  border: solid 2px black;
+  margin-right: 10px;
 }
 
 .remove-project-visible {
@@ -101,7 +140,7 @@ header {
 
 .number-of-todo-items {
   font-size: 20px;
-  background-color: rgb(147, 147, 211);
+  background-color: var(--main-lightest-primary-color);
   margin-right: 20px;
   width: 43px;
   height: 40px;
@@ -113,11 +152,16 @@ header {
   border-radius: 50%;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .add-todo-item-button {
   margin: 10px;
   padding-top: 8px;
   padding-bottom: 8px;
-  width: 300px;
+  width: 150px;
   font-size: 20px;
   margin-left: 0;
   padding-right: 10px;

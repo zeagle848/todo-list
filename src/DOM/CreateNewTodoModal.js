@@ -1,5 +1,5 @@
 import { format, endOfDay } from "date-fns";
-import { updateTodoList } from "./updateTodoList.js";
+import { updateTodoList } from "./UpdateTodoList.js";
 import { updateProjectList } from "./UpdateProjectList.js";
 export function newTodoModal(myTodo) {
   const allProjects = myTodo.getProjectList();
@@ -272,7 +272,7 @@ export function newTodoModal(myTodo) {
         false
       );
       updateTodoList(myTodo);
-      updateProjectList(myTodo);
+      updateProjectList(myTodo, todoProject);
       closeForm();
     }
   });

@@ -96,6 +96,8 @@ export function newTodoItem(
     myTodo.removeTodoItem(ID);
     removeTodoItem.parentElement.parentElement.remove();
     updateProjectList(myTodo);
+    document.querySelector("#home-num-todo-items").textContent =
+      myTodo.getTodoList("all-projects").length;
   });
 
   todoItemEnd.append(removeTodoItem);

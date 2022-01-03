@@ -1,4 +1,5 @@
-import { updateTodoList } from "./updateTodoList";
+import { updateTodoList } from "./UpdateTodoList";
+import { updateDisplays } from "../Update/UpdateDisplays";
 
 export function updateProjectList(myTodo) {
   const projectContainer = document.getElementById("side-bar-projects");
@@ -10,13 +11,27 @@ export function updateProjectList(myTodo) {
       const numberElement = document.querySelector(
         `[data-project-name = '${project.projectName}']`
       );
-      console.log(numberElement);
       numberElement.textContent = myTodo.getProjectNumbers(project.projectName);
     } else {
       const numOfTodoItems = myTodo.getProjectNumbers(project.projectName);
 
       const projectItem = document.createElement("div");
       projectItem.classList.add("project-item");
+      projectItem.setAttribute(
+        "data-project-item-name",
+        `${project.projectName}`
+      );
+
+      projectItem.addEventListener("click", (e) => {
+        const lastActiveProject = document.querySelector(
+          ".project-item-selected"
+        );
+        if (lastActiveProject !== null) {
+          lastActiveProject.classList.remove("project-item-selected");
+        }
+        updateTodoList(myTodo, project.projectName);
+        projectItem.classList.add("project-item-selected");
+      });
 
       const projectName = document.createElement("h2");
       projectName.textContent = project.projectName;
@@ -41,15 +56,15 @@ export function updateProjectList(myTodo) {
       removeProject.textContent = "X";
 
       removeProject.addEventListener("click", () => {
-        console.log("Hello");
         let safeToRemove = confirm(
-          "Deleting project will delete all todo items associated with it. Are you sure you want to delete this project?"
+          "Deleting this project will delete all todo items associated with it. Are you sure you want to proceed?"
         );
 
         if (safeToRemove) {
           myTodo.removeProject(project.projectName);
           removeProject.parentElement.parentElement.remove();
-          updateTodoList(myTodo);
+          updateTodoList(myTodo, "all-projects");
+          updateDisplays(myTodo);
         }
       });
 

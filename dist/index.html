@@ -16,14 +16,28 @@
       <h1 class="header-heading">Todo List</h1>
     </header>
     <div class="side-bar">
-      <h1>Home</h1>
-      <h2>Today</h2>
-      <h2>This Week</h2>
+      <div class="home-container project-item-selected" id="home-container">
+        <h1>Home</h1>
+        <span class="number-of-todo-items" id="home-num-todo-items"></span>
+      </div>
+      <div class="date-container" id="today-container">
+        <h2>Today</h1>
+        <span class="number-of-todo-items" id="today-num-todo-items"></span>
+      </div>
+      <div class="date-container" id="week-container">
+        <h2>This Week</h1>
+        <span class="number-of-todo-items" id="week-num-todo-items"></span>
+      </div>
       <h1>Projects</h1>
       <div class="side-bar-projects" id="side-bar-projects"></div>
-      <button class="add-todo-item-button" id="add-todo-item-button">
-        Todo item +
-      </button>
+      <div class="buttons-container">
+        <button class="add-todo-item-button" id="add-todo-item-button">
+          Todo item +
+        </button>
+        <button class="add-todo-item-button" id="populate-app">
+          Populate App
+        </button>
+      </div>
     </div>
     <div class="content" id="todo-items-container"></div>
     <script src="main.js"></script>

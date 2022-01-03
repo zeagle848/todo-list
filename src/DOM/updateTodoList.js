@@ -1,7 +1,7 @@
 import { newTodoItem } from "./CreateTodoItem.js";
 
-export function updateTodoList(myTodo) {
-  const todoItems = myTodo.getTodoList();
+export function updateTodoList(myTodo, project) {
+  const todoItems = myTodo.getTodoList(project);
   const todoContainer = document.getElementById("todo-items-container");
   removeAllChildNodes(todoContainer);
   todoItems.forEach((todoItem) => {

@@ -1,5 +1,6 @@
-import { updateTodoList } from "./updateTodoList";
+import { updateTodoList } from "./UpdateTodoList";
 import { updateProjectList } from "./UpdateProjectList";
+import { updateDisplays } from "../Update/UpdateDisplays";
 export function editTodoModal(
   name,
   description,
@@ -252,7 +253,7 @@ export function editTodoModal(
   // SUBMIT BUTTON EVENT HANDLER
 
   submitTodoButton.addEventListener("click", () => {
-    const finalDescription = todoDescription.textContent;
+    const finalDescription = todoDescription.value;
     const finalDueDate = dateContent.value;
     let finalPriority;
     const finalProject = dropdownButton.textContent;
@@ -274,8 +275,39 @@ export function editTodoModal(
       finalProject,
       todoID
     );
-    updateTodoList(myTodo);
-    updateProjectList(myTodo);
+
+    if (
+      document
+        .getElementById("home-container")
+        .classList.contains("project-item-selected") &&
+      finalProject === selectedProject
+    ) {
+      updateTodoList(myTodo, "all-projects");
+    } else if (
+      document
+        .getElementById("today-container")
+        .classList.contains("project-item-selected") &&
+      finalProject === selectedProject
+    ) {
+      updateTodoList(myTodo, "today");
+      updateDisplays(myTodo);
+    } else if (
+      document
+        .getElementById("week-container")
+        .classList.contains("project-item-selected") &&
+      finalProject === selectedProject
+    ) {
+      updateTodoList(myTodo, "week");
+      updateDisplays(myTodo);
+    } else {
+      updateTodoList(myTodo, finalProject);
+      updateProjectList(myTodo);
+      updateDisplays(myTodo);
+      const projectItem = document.querySelector(
+        `[data-project-item-name='${finalProject}']`
+      );
+      projectItem.classList.add("project-item-selected");
+    }
     closeModal();
   });
 

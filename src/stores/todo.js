@@ -38,8 +38,42 @@ export class Todo {
     this.projectList = this.#retrieveProjectList() || [];
   }
 
-  getTodoList() {
-    return this.todoList;
+  getTodoList(project) {
+    if (project === "all-projects") {
+      return this.todoList;
+    } else if (project === "today") {
+      const today = new Date();
+      const currentDate =
+        today.getFullYear() +
+        "-" +
+        ("0" + today.getMonth() + 1).slice(-2) +
+        "-" +
+        ("0" + today.getDate()).slice(-2);
+
+      return this.todoList.filter((todoItem) => {
+        return todoItem.dueDate === currentDate;
+      });
+    } else if (project === "week") {
+      const currentDate = new Date();
+      let week = [];
+
+      for (let i = 1; i <= 7; i++) {
+        let first = currentDate.getDate() - currentDate.getDay() + i;
+        let day = new Date(currentDate.setDate(first))
+          .toISOString()
+          .slice(0, 10);
+
+        week.push(day);
+      }
+
+      return this.todoList.filter((todoItem) => {
+        return week.includes(todoItem.dueDate);
+      });
+    } else {
+      return this.todoList.filter((todoItem) => {
+        return todoItem.project === project;
+      });
+    }
   }
 
   getProjectList() {
@@ -130,5 +164,11 @@ export class Todo {
     } else {
       return numberOfProjects;
     }
+  }
+
+  getProjectsTodoItems(projectName) {
+    return this.todoList.filter((todoItem) => {
+      return todoItem.project === projectName;
+    });
   }
 }
