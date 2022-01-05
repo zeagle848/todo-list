@@ -5,7 +5,6 @@
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Development Notes](#development-notes)
-- [Testing](#testing)
 
 ## Introduction
 
@@ -45,5 +44,3 @@ The application is controlled by a class module called Todo. Like the library ap
 
 1. When deleting a project, and all todo items associated with it, it should default to the home screen showing all todo items. Currently, it doesn't display anything at all.
 2. The project dropdown menu for the new todo item modal does not update with the current projects. It only updates when the page is refreshed. For some reason it works fine for the edit todo item modal. 
-
-## Testing
