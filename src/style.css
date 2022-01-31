@@ -155,6 +155,7 @@ header {
 .buttons-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .add-todo-item-button {
@@ -175,10 +176,19 @@ header {
 
 .add-todo-item-button:hover {
   color: white;
-  background-color: green;
+  background-color: var(--main-lightest-primary-color);
   box-shadow: 2px 2px 5px 1px var(--main-primary-color);
   transform: scale(1.05);
-  border: 1px solid green;
+  border: 1px solid var(--main-primary-color);
+}
+
+.delete-todo-list {
+  visibility: visible;
+  font-size: 20px;
+  height: 40px;
+  width: 40px;
+  outline: none;
+  border-style: none;
 }
 
 /* MAIN CONTENT STYLING */

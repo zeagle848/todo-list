@@ -202,8 +202,7 @@ export function editTodoModal(
   //ADD EVENT LISTENER FOR ADDING NEW PROJECT
   dropDownNewProject.addEventListener("click", () => {
     const newProjectName = prompt("Project name").trim();
-    if (newProjectName === null || newProjectName === "") {
-    } else {
+    if (newProjectName !== null && newProjectName !== "") {
       myTodo.addProject(newProjectName, false);
       dropdownButton.textContent = newProjectName;
       dropDownNewProject.parentElement.removeChild(dropDownNewProject);
@@ -283,6 +282,7 @@ export function editTodoModal(
       finalProject === selectedProject
     ) {
       updateTodoList(myTodo, "all-projects");
+      updateProjectList(myTodo);
     } else if (
       document
         .getElementById("today-container")
@@ -290,7 +290,7 @@ export function editTodoModal(
       finalProject === selectedProject
     ) {
       updateTodoList(myTodo, "today");
-      updateDisplays(myTodo);
+      updateProjectList(myTodo);
     } else if (
       document
         .getElementById("week-container")
@@ -298,38 +298,30 @@ export function editTodoModal(
       finalProject === selectedProject
     ) {
       updateTodoList(myTodo, "week");
-      updateDisplays(myTodo);
+      updateProjectList(myTodo);
     } else {
       updateTodoList(myTodo, finalProject);
       updateProjectList(myTodo);
-      updateDisplays(myTodo);
       const projectItem = document.querySelector(
         `[data-project-item-name='${finalProject}']`
       );
+      document
+        .querySelector(".project-item-selected")
+        .classList.remove("project-item-selected");
       projectItem.classList.add("project-item-selected");
     }
+    updateDisplays(myTodo);
     closeModal();
   });
 
   function closeModal() {
-    modalBackgroundEditTodo.classList.remove("edit-todo-background-visible");
-    todoDescription.value = description;
-    dateContent.value = dueDate;
-    dropdownButton.textContent = selectedProject;
+    removeAllChildNodes(modalBackgroundEditTodo);
+    modalBackgroundEditTodo.remove();
+  }
+}
 
-    switch (priority) {
-      case "low":
-        lowPriorityRadio.checked = true;
-        break;
-      case "medium":
-        mediumPriorityRadio.checked = true;
-        break;
-      case "high":
-        highPriorityRadio.checked = true;
-        break;
-      default:
-        alert("NO PRIORITY BUTTON GIVEN ERROR");
-        break;
-    }
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
   }
 }

@@ -1,5 +1,3 @@
-import { format, endOfDay } from "date-fns";
-
 export class Todo {
   #retrieveTodoList() {
     try {
@@ -125,6 +123,13 @@ export class Todo {
     this.#storeTodoList();
   }
 
+  deleteTodoList() {
+    this.todoList = [];
+    this.projectList = [];
+    this.#storeTodoList();
+    this.#storeProjectList();
+  }
+
   toggleIsComplete(checkBox, todoID, todoName) {
     checkBox.addEventListener("change", () => {
       if (checkBox.checked) {
@@ -164,11 +169,5 @@ export class Todo {
     } else {
       return numberOfProjects;
     }
-  }
-
-  getProjectsTodoItems(projectName) {
-    return this.todoList.filter((todoItem) => {
-      return todoItem.project === projectName;
-    });
   }
 }

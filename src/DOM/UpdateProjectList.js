@@ -6,6 +6,8 @@ export function updateProjectList(myTodo) {
 
   const projectList = myTodo.getProjectList();
 
+  console.log(projectList);
+
   projectList.forEach((project) => {
     if (project.exists) {
       const numberElement = document.querySelector(
@@ -55,7 +57,8 @@ export function updateProjectList(myTodo) {
       removeProject.classList.add("remove-project");
       removeProject.textContent = "X";
 
-      removeProject.addEventListener("click", () => {
+      removeProject.addEventListener("click", (event) => {
+        event.stopPropagation();
         let safeToRemove = confirm(
           "Deleting this project will delete all todo items associated with it. Are you sure you want to proceed?"
         );
@@ -64,6 +67,9 @@ export function updateProjectList(myTodo) {
           myTodo.removeProject(project.projectName);
           removeProject.parentElement.parentElement.remove();
           updateTodoList(myTodo, "all-projects");
+          document
+            .querySelector(".home-container")
+            .classList.add("project-item-selected");
           updateDisplays(myTodo);
         }
       });

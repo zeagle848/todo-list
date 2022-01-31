@@ -1,3 +1,7 @@
+// BUGS THAT NEED FIXING
+
+// 2. Project dropdown menu does not update within newTodoItem modal
+
 import css from "./style.css";
 import { newTodoModal } from "./DOM/CreateNewTodoModal.js";
 import { updateTodoList } from "./DOM/UpdateTodoList";
@@ -12,6 +16,7 @@ const populateAppButton = document.getElementById("populate-app");
 const homeButton = document.getElementById("home-container");
 const todayButton = document.getElementById("today-container");
 const weekButton = document.getElementById("week-container");
+const deleteTodoList = document.getElementById("delete-todo-list");
 
 const numHomeTodoItems = document.getElementById("home-num-todo-items");
 numHomeTodoItems.textContent = myTodo.getTodoList("all-projects").length;
@@ -44,6 +49,7 @@ homeButton.addEventListener("click", () => {
 });
 
 addTodoItemButton.addEventListener("click", () => {
+  newTodoModal(myTodo, myTodo.getProjectList());
   const modalBackgroundNewTodo = document.getElementById(
     "modal-background-new-todo"
   );
@@ -57,12 +63,19 @@ populateAppButton.addEventListener("click", () => {
     myTodo.addProject("Garden", false);
     myTodo.addProject("Work", false);
     myTodo.addProject("Play", false);
+    const today = new Date();
+    const currentDate =
+      today.getFullYear() +
+      "-" +
+      ("0" + today.getMonth() + 1).slice(-2) +
+      "-" +
+      ("0" + today.getDate()).slice(-2);
 
     myTodo.addTodoItem(
       "Mow the lawn",
       "Can be done with the new lawnmower",
       "low",
-      "2022-01-03",
+      currentDate,
       "Garden",
       generateID(),
       false
@@ -80,7 +93,7 @@ populateAppButton.addEventListener("click", () => {
       "Cut down the tree",
       "Call 072 987 2628",
       "high",
-      "2022-01-03",
+      "2022-01-09",
       "Garden",
       generateID(),
       false
@@ -99,7 +112,7 @@ populateAppButton.addEventListener("click", () => {
       "Do taxes",
       "From January to February",
       "medium",
-      "2022-10-20",
+      currentDate,
       "Work",
       generateID(),
       false
@@ -118,7 +131,7 @@ populateAppButton.addEventListener("click", () => {
       "Beat Little Ricky",
       "Need to level up to level 67 in borderlands to do this",
       "low",
-      "2022-10-11",
+      currentDate,
       "Play",
       generateID(),
       false
@@ -146,13 +159,26 @@ populateAppButton.addEventListener("click", () => {
     alert("Can only populate when there are no todo items present");
   }
 
+  document
+    .querySelector(".home-container")
+    .classList.add("project-item-selected");
   updateTodoList(myTodo, "all-projects");
   updateProjectList(myTodo);
 });
 
-// SHOW THE NEW TODO MODAL
+deleteTodoList.addEventListener("click", () => {
+  let safeToRemove = confirm("Are you sure you want to remove all todo items?");
+  if (safeToRemove) {
+    myTodo.deleteTodoList();
+    const projectContainer = document.getElementById("side-bar-projects");
+    while (projectContainer.firstChild) {
+      projectContainer.removeChild(projectContainer.firstChild);
+    }
+    updateTodoList(myTodo, "all-projects");
+    updateDisplays(myTodo);
+  }
+});
 
-newTodoModal(myTodo);
 updateTodoList(myTodo, "all-projects");
 populateProjectList(myTodo);
 updateDisplays(myTodo);

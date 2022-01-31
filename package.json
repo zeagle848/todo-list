@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "webpack serve --open",
-    "build": "webpack"
+    "build": "webpack",
+    "e2e": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,9 @@
   "homepage": "https://github.com/zeagle848/todo-list#readme",
   "devDependencies": {
     "css-loader": "^6.5.1",
+    "cypress": "^9.2.1",
     "date-fns": "^2.26.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0"

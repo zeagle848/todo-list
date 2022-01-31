@@ -1,6 +1,7 @@
 import { editTodoModal } from "./CreateEditTodoModule.js";
 import { todoDescriptionModal } from "./CreateTodoDescriptionModal.js";
 import { updateProjectList } from "./UpdateProjectList.js";
+import { updateDisplays } from "../Update/UpdateDisplays.js";
 export function newTodoItem(
   name,
   description,
@@ -96,8 +97,7 @@ export function newTodoItem(
     myTodo.removeTodoItem(ID);
     removeTodoItem.parentElement.parentElement.remove();
     updateProjectList(myTodo);
-    document.querySelector("#home-num-todo-items").textContent =
-      myTodo.getTodoList("all-projects").length;
+    updateDisplays(myTodo);
   });
 
   todoItemEnd.append(removeTodoItem);

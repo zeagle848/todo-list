@@ -1,9 +1,10 @@
 import { format, endOfDay } from "date-fns";
 import { updateTodoList } from "./UpdateTodoList.js";
 import { updateProjectList } from "./UpdateProjectList.js";
-export function newTodoModal(myTodo) {
-  const allProjects = myTodo.getProjectList();
+import { updateDisplays } from "../Update/UpdateDisplays.js";
 
+export function newTodoModal(myTodo, allProjects) {
+  console.log(allProjects);
   // CREATE ROOT ELEMENTS
   const rootElement = document.getElementById("root");
   const fragment = document.createDocumentFragment();
@@ -152,8 +153,9 @@ export function newTodoModal(myTodo) {
   const dropdownContent = document.createElement("div");
   dropdownContent.classList.add("dropdown-content");
 
-  // DYNAMICALLY POPULATE DROPDOWN MENU WITH SAVED PROJECTS
+  // POPULATE DROPDOWN MENU WITH SAVED PROJECTS
   allProjects.forEach((project, currentIndex) => {
+    console.log(currentIndex);
     const dropDownElement = document.createElement("span");
     const projectName = project.projectName;
     dropDownElement.textContent = projectName;
@@ -271,19 +273,35 @@ export function newTodoModal(myTodo) {
         todoID,
         false
       );
-      updateTodoList(myTodo);
+      updateTodoList(myTodo, todoProject);
       updateProjectList(myTodo, todoProject);
+      const projectItem = document.querySelector(
+        `[data-project-item-name='${todoProject}']`
+      );
+      const lastActiveProject = document.querySelector(
+        ".project-item-selected"
+      );
+      if (lastActiveProject !== null) {
+        lastActiveProject.classList.remove("project-item-selected");
+      }
+      projectItem.classList.add("project-item-selected");
+      updateDisplays(myTodo);
       closeForm();
     }
   });
 
   function closeForm() {
-    modalBackgroundNewTodo.classList.remove("new-todo-item-background-visible");
+    const modalBackground = document.getElementById(
+      "modal-background-new-todo"
+    );
+    removeAllChildNodes(modalBackground);
+    modalBackground.remove();
+  }
+}
 
-    todoItemNameInput.value = "";
-    todoItemDescriptionInput.value = "";
-    dateInput.value = "";
-    dropdownButton.textContent = "Choose project...";
+function removeAllChildNodes(parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
   }
 }
 

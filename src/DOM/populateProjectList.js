@@ -46,7 +46,8 @@ export function populateProjectList(myTodo) {
     removeProject.classList.add("remove-project");
     removeProject.textContent = "X";
 
-    removeProject.addEventListener("click", () => {
+    removeProject.addEventListener("click", (event) => {
+      event.stopPropagation();
       let safeToRemove = confirm(
         "Deleting project will delete all todo items associated with it. Are you sure you want to delete this project?"
       );
@@ -56,6 +57,9 @@ export function populateProjectList(myTodo) {
         removeProject.parentElement.parentElement.remove();
         updateTodoList(myTodo, "all-projects");
         updateDisplays(myTodo);
+        document
+          .querySelector(".home-container")
+          .classList.add("project-item-selected");
       }
     });
 
