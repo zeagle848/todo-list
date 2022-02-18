@@ -1,188 +1,325 @@
-// BUGS THAT NEED FIXING
+import './style.css';
+import {
+  getState,
+  addProject,
+  addTodoItem,
+  setInitialStateFromStorage,
+  initialiseStateFromStorage,
+  toggleIsCompleteTodoItem,
+  editTodoItem,
+  deleteTodoItem,
+  deleteProject,
+} from './state/storage';
+import renderDescriptionModal from './components/renderDescriptionModal';
+import renderTodoItem from './components/renderTodoItem';
+import renderProject from './components/renderSideBarProjects';
+import renderNewTodoModal from './components/renderNewTodoModal';
+import renderEditTodoModal from './components/renderEditTodoModal';
+import {
+  getTodoItems,
+  getProjectList,
+  getProjectNumbers,
+  getSpecificTodoItem,
+} from './services/getStateDetails';
+import updateDisplays from './services/updateDisplays';
 
-// 2. Project dropdown menu does not update within newTodoItem modal
-
-import css from "./style.css";
-import { newTodoModal } from "./DOM/CreateNewTodoModal.js";
-import { updateTodoList } from "./DOM/UpdateTodoList";
-import { Todo } from "./stores/todo.js";
-import { populateProjectList } from "./DOM/PopulateProjectList";
-import { updateProjectList } from "./DOM/UpdateProjectList";
-import { updateDisplays } from "./Update/UpdateDisplays";
-const myTodo = new Todo();
-
-const addTodoItemButton = document.getElementById("add-todo-item-button");
-const populateAppButton = document.getElementById("populate-app");
-const homeButton = document.getElementById("home-container");
-const todayButton = document.getElementById("today-container");
-const weekButton = document.getElementById("week-container");
-const deleteTodoList = document.getElementById("delete-todo-list");
-
-const numHomeTodoItems = document.getElementById("home-num-todo-items");
-numHomeTodoItems.textContent = myTodo.getTodoList("all-projects").length;
-
-weekButton.addEventListener("click", () => {
-  const lastActiveProject = document.querySelector(".project-item-selected");
-  if (lastActiveProject !== null) {
-    lastActiveProject.classList.remove("project-item-selected");
-  }
-  updateTodoList(myTodo, "week");
-  weekButton.classList.add("project-item-selected");
-});
-
-todayButton.addEventListener("click", () => {
-  const lastActiveProject = document.querySelector(".project-item-selected");
-  if (lastActiveProject !== null) {
-    lastActiveProject.classList.remove("project-item-selected");
-  }
-  updateTodoList(myTodo, "today");
-  todayButton.classList.add("project-item-selected");
-});
-
-homeButton.addEventListener("click", () => {
-  const lastActiveProject = document.querySelector(".project-item-selected");
-  if (lastActiveProject !== null) {
-    lastActiveProject.classList.remove("project-item-selected");
-  }
-  updateTodoList(myTodo, "all-projects");
-  homeButton.classList.add("project-item-selected");
-});
-
-addTodoItemButton.addEventListener("click", () => {
-  newTodoModal(myTodo, myTodo.getProjectList());
-  const modalBackgroundNewTodo = document.getElementById(
-    "modal-background-new-todo"
-  );
-  const body = document.getElementById("root");
-  modalBackgroundNewTodo.classList.add("new-todo-item-background-visible");
-  body.classList.add("body-no-scroll");
-});
-
-populateAppButton.addEventListener("click", () => {
-  if (myTodo.getTodoList("all-projects").length === 0) {
-    myTodo.addProject("Garden", false);
-    myTodo.addProject("Work", false);
-    myTodo.addProject("Play", false);
-    const today = new Date();
-    const currentDate =
-      today.getFullYear() +
-      "-" +
-      ("0" + today.getMonth() + 1).slice(-2) +
-      "-" +
-      ("0" + today.getDate()).slice(-2);
-
-    myTodo.addTodoItem(
-      "Mow the lawn",
-      "Can be done with the new lawnmower",
-      "low",
-      currentDate,
-      "Garden",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Plant the roses",
-      "Only plant on the stoep",
-      "medium",
-      "2022-01-03",
-      "Garden",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Cut down the tree",
-      "Call 072 987 2628",
-      "high",
-      "2022-01-09",
-      "Garden",
-      generateID(),
-      false
-    );
-
-    myTodo.addTodoItem(
-      "Call Mike",
-      "Call to organize meeting with Jill",
-      "high",
-      "2022-10-21",
-      "Work",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Do taxes",
-      "From January to February",
-      "medium",
-      currentDate,
-      "Work",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Buy more paperclips",
-      "James needs paperclips too",
-      "low",
-      "2022-10-20",
-      "Work",
-      generateID(),
-      false
-    );
-
-    myTodo.addTodoItem(
-      "Beat Little Ricky",
-      "Need to level up to level 67 in borderlands to do this",
-      "low",
-      currentDate,
-      "Play",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Look into Invoker",
-      "Have to learn more heroes",
-      "medium",
-      "2022-10-16",
-      "Play",
-      generateID(),
-      false
-    );
-    myTodo.addTodoItem(
-      "Buy Death Trash",
-      "Have to support the developers",
-      "high",
-      "2022-10-14",
-      "Play",
-      generateID(),
-      false
-    );
-    updateDisplays(myTodo);
-  } else {
-    alert("Can only populate when there are no todo items present");
-  }
-
-  document
-    .querySelector(".home-container")
-    .classList.add("project-item-selected");
-  updateTodoList(myTodo, "all-projects");
-  updateProjectList(myTodo);
-});
-
-deleteTodoList.addEventListener("click", () => {
-  let safeToRemove = confirm("Are you sure you want to remove all todo items?");
-  if (safeToRemove) {
-    myTodo.deleteTodoList();
-    const projectContainer = document.getElementById("side-bar-projects");
-    while (projectContainer.firstChild) {
-      projectContainer.removeChild(projectContainer.firstChild);
-    }
-    updateTodoList(myTodo, "all-projects");
-    updateDisplays(myTodo);
-  }
-});
-
-updateTodoList(myTodo, "all-projects");
-populateProjectList(myTodo);
-updateDisplays(myTodo);
-
+// UTILITY FUNCTIONS
 function generateID() {
-  return Math.floor(Math.random() * 10000 + 1);
+  return Math.floor(Math.random() * 10000 + 1).toString();
 }
+
+// DOM RELATED FUNCTIONS
+
+function addAndRemoveSelectedClass({ elementToAddClass }) {
+  const lastActiveProject = document.querySelector('.project-item-selected');
+  if (lastActiveProject !== null) {
+    lastActiveProject.classList.remove('project-item-selected');
+  }
+  elementToAddClass.classList.add('project-item-selected');
+}
+
+function clearTodoContainer() {
+  const todoContainer = document.getElementById('todo-items-container');
+  while (todoContainer.firstChild) {
+    todoContainer.removeChild(todoContainer.firstChild);
+  }
+}
+
+function clearProjectContainer() {
+  const projectContainer = document.getElementById('side-bar-projects');
+  while (projectContainer.firstChild) {
+    projectContainer.removeChild(projectContainer.firstChild);
+  }
+}
+// FUNCTIONS ASSOCIATED WITH ADDING A TODO ITEM
+function addNewProject(event) {
+  const newProjectName = prompt('Project name').trim();
+  if (newProjectName) {
+    const dropDownButton = document.querySelector('.dropdown-button');
+    dropDownButton.textContent = newProjectName;
+
+    const dropDownNewProject = event.target;
+    dropDownNewProject.parentElement.removeChild(dropDownNewProject);
+
+    const newDropDownElement = document.createElement('span');
+    newDropDownElement.textContent = newProjectName;
+
+    const dropDownContent = document.querySelector('.dropdown-content');
+
+    dropDownContent.append(newDropDownElement);
+
+    dropDownContent.append(dropDownNewProject);
+  }
+}
+
+function submitNewTodoModalMethod() {
+  const todoNameInput = document.querySelector('.new-todo-item-name');
+  const todoDescriptionInput = document.querySelector('.todo-description');
+  const dateInput = document.querySelector('#todo-modal-due-date-input');
+  const dropDownButton = document.querySelector('.dropdown-button');
+  const lowPriorityRadio = document.querySelector('.low-priority-radio');
+  const mediumPriorityRadio = document.querySelector('.medium-priority-radio');
+  const highPriorityRadio = document.querySelector('.high-priority-radio');
+
+  const todoName = todoNameInput.value.trim();
+  const todoDescription = todoDescriptionInput.value.trim();
+  const todoDueDate = dateInput.value;
+  let todoPriority;
+  const todoProject = dropDownButton.textContent;
+
+  if (lowPriorityRadio.checked === true) {
+    todoPriority = 'low';
+  }
+  if (mediumPriorityRadio.checked === true) {
+    todoPriority = 'medium';
+  }
+  if (highPriorityRadio.checked === true) {
+    todoPriority = 'high';
+  }
+
+  if (todoName === '') {
+    alert('Please name your todo item');
+  }
+
+  if (todoPriority === undefined) {
+    alert('Please provide a priority for your todo item');
+  }
+
+  if (todoProject === 'Choose project...') {
+    alert('Please specify a project for your todo item');
+  }
+
+  if (
+    todoName !== '' &&
+    todoPriority !== undefined &&
+    todoProject !== 'Choose project...'
+  ) {
+    addProject({ name: todoProject });
+    addTodoItem({
+      name: todoName,
+      description: todoDescription,
+      priority: todoPriority,
+      dueDate: todoDueDate,
+      project: todoProject,
+      id: generateID(),
+      isComplete: false,
+    });
+    renderTodoItems({ state: getState(), filter: todoProject });
+    renderProjectItems({ projectList: getProjectList({ state: getState() }) });
+    updateDisplays({ state: getState(), getProjectNumbers, getTodoItems });
+    addAndRemoveSelectedClass({
+      elementToAddClass: document.querySelector(
+        `[data-project-item-name=${todoProject}]`
+      ),
+    });
+    return true;
+  }
+}
+
+const addNewTodoItemButton = document.getElementById('add-todo-item-button');
+
+addNewTodoItemButton.addEventListener('click', () => {
+  renderNewTodoModal({
+    allProjects: getProjectList({ state: getState() }),
+    addNewProjectFunction: addNewProject,
+    submitNewTodoMethod: submitNewTodoModalMethod,
+  });
+});
+
+// FUNCTIONS ASSOCIATED WITH THE EDIT MODAL
+
+function submitEditTodoFunction(event) {
+  const todoDescriptionInput = document.querySelector('.todo-description');
+  const dateInput = document.querySelector('.todo-modal-due-date-input');
+  const dropDownButton = document.querySelector('.dropdown-button');
+  const lowPriorityRadio = document.querySelector('.low-priority-radio');
+  const mediumPriorityRadio = document.querySelector('.medium-priority-radio');
+  const highPriorityRadio = document.querySelector('.high-priority-radio');
+
+  const finalDescription = todoDescriptionInput.value.trim();
+  const finalDueDate = dateInput.value;
+  let finalPriority;
+  const finalProject = dropDownButton.textContent;
+
+  if (lowPriorityRadio.checked === true) {
+    finalPriority = 'low';
+  }
+  if (mediumPriorityRadio.checked === true) {
+    finalPriority = 'medium';
+  }
+  if (highPriorityRadio.checked === true) {
+    finalPriority = 'high';
+  }
+
+  const todoID = event.target.getAttribute('data-todo-id');
+  editTodoItem({});
+  editTodoItem({
+    todoItemId: todoID,
+    newDescription: finalDescription,
+    newPriority: finalPriority,
+    newDueDate: finalDueDate,
+    newProject: finalProject,
+  });
+  renderTodoItems({ state: getState(), filter: finalProject });
+  renderProjectItems({ projectList: getProjectList({ state: getState() }) });
+  updateDisplays({ state: getState(), getProjectNumbers, getTodoItems });
+  addAndRemoveSelectedClass({
+    elementToAddClass: document.querySelector(
+      `[data-project-item-name=${finalProject}]`
+    ),
+  });
+}
+
+// FUNCTIONS ASSOCIATED WITH INDIVIDUAL TODO ITEMS
+
+function onDescriptionClick(event) {
+  const todoID =
+    event.target.parentNode.parentNode.getAttribute('data-todo-id');
+  const todoItem = getSpecificTodoItem({
+    state: getState(),
+    todoItemID: todoID,
+  });
+  renderDescriptionModal(todoItem);
+}
+
+function onEditClick(event) {
+  const todoItem = getSpecificTodoItem({
+    state: getState(),
+    todoItemID: event.target.getAttribute('data-todo-id'),
+  });
+  renderEditTodoModal({
+    todoItem,
+    submitEditTodoFunction,
+    allProjects: getProjectList({
+      state: getState(),
+      addNewProjectFunction: addNewProject,
+    }),
+  });
+}
+
+function toggleIsComplete(event) {
+  const isComplete = event.target.checked;
+  const todoID =
+    event.target.parentNode.parentNode.getAttribute('data-todo-id');
+  toggleIsCompleteTodoItem(todoID);
+  const todoItemElement = document.querySelector(`[data-todo-id='${todoID}']`);
+  const todoItemNameElement = todoItemElement.firstChild.firstChild.nextSibling;
+
+  if (isComplete) {
+    // todoItemCheckbox.checked = currentTodoItem.isComplete;
+    todoItemNameElement.classList.add('task-complete');
+  } else {
+    todoItemNameElement.classList.remove('task-complete');
+  }
+}
+
+function removeTodoItem(event) {
+  const todoID =
+    event.target.parentNode.parentNode.getAttribute('data-todo-id');
+  deleteTodoItem({ todoItemIdToDelete: todoID });
+  event.target.parentNode.parentNode.remove();
+  updateDisplays({ state: getState(), getProjectNumbers, getTodoItems });
+}
+
+function renderTodoItems({ state, filter }) {
+  clearTodoContainer();
+  const todoItemList = getTodoItems({ state, selectedFilter: filter });
+  todoItemList.forEach((todoItem) => {
+    renderTodoItem({
+      todoItem,
+      toggleIsCompleteFunction: toggleIsComplete,
+      descriptionButtonFunction: onDescriptionClick,
+      editButtonFunction: onEditClick,
+      removeTodoItemFunction: removeTodoItem,
+    });
+  });
+}
+
+// FUNCTIONS ASSOCIATED WITH PROJECT ITEMS ON THE SIDE BAR
+
+function projectClickFunction(event) {
+  const projectName = event.target.getAttribute('data-project-item-name');
+  renderTodoItems({ state: getState(), filter: projectName });
+  addAndRemoveSelectedClass({ elementToAddClass: event.target });
+}
+
+function removeProject(event) {
+  event.stopPropagation();
+  const projectName = event.target.id;
+  deleteProject({ projectToDelete: projectName });
+  renderTodoItems({ state: getState(), filter: 'all-projects' });
+  event.target.parentNode.parentNode.remove();
+  addAndRemoveSelectedClass({
+    elementToAddClass: document.getElementById('home-container'),
+  });
+  updateDisplays({ state: getState(), getProjectNumbers, getTodoItems });
+}
+
+function renderProjectItems({ projectList }) {
+  clearProjectContainer();
+  projectList.forEach((project) => {
+    const projectNumbers = getProjectNumbers({
+      state: getState(),
+      projectName: project.name,
+    });
+    renderProject({
+      projectName: project.name,
+      projectClickFunction,
+      projectTodoCount: projectNumbers,
+      removeProjectFunction: removeProject,
+    });
+  });
+}
+
+// EVENT LISTENERS FOR THE SIDE BAR
+
+const homeButton = document.getElementById('home-container');
+const todayButton = document.getElementById('today-container');
+const weekButton = document.getElementById('week-container');
+
+homeButton.addEventListener('click', () => {
+  renderTodoItems({ state: getState(), filter: 'all-projects' });
+  addAndRemoveSelectedClass({ elementToAddClass: homeButton });
+});
+
+todayButton.addEventListener('click', () => {
+  renderTodoItems({ state: getState(), filter: 'today' });
+  addAndRemoveSelectedClass({ elementToAddClass: todayButton });
+});
+
+weekButton.addEventListener('click', () => {
+  renderTodoItems({ state: getState(), filter: 'week' });
+  addAndRemoveSelectedClass({ elementToAddClass: weekButton });
+});
+
+// INITIALIZE FUNCTION
+
+function onInit() {
+  setInitialStateFromStorage({ storedState: initialiseStateFromStorage() });
+  renderTodoItems({ state: getState(), filter: 'all-projects' });
+  const allProjects = getProjectList({ state: getState() });
+  renderProjectItems({ projectList: allProjects });
+  updateDisplays({ state: getState(), getProjectNumbers, getTodoItems });
+}
+
+onInit();

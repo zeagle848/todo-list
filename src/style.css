@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Antique+B1&display=swap');
 
 :root {
   --main-primary-color: rgb(39, 39, 109);
@@ -13,7 +13,15 @@ body {
   display: grid;
 }
 
-/* HEADER STYLING */
+/*
+ _    _                _              _____ _         _ _             
+ | |  | |              | |            / ____| |       | (_)            
+ | |__| | ___  __ _  __| | ___ _ __  | (___ | |_ _   _| |_ _ __   __ _ 
+ |  __  |/ _ \/ _` |/ _` |/ _ \ '__|  \___ \| __| | | | | | '_ \ / _` |
+ | |  | |  __/ (_| | (_| |  __/ |     ____) | |_| |_| | | | | | | (_| |
+ |_|  |_|\___|\__,_|\__,_|\___|_|    |_____/ \__|\__, |_|_|_| |_|\__, |
+                                                  __/ |           __/ |
+                                                 |___/           |___/  */
 
 header {
   background-color: var(--main-primary-color);
@@ -30,12 +38,21 @@ header {
   color: white;
   padding-left: 50px;
   padding-bottom: 0px;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   font-size: 50px;
   margin-bottom: 0px;
 }
 
-/* SIDE-BAR STYLING */
+/* 
+   _____ _     _             _                   _____ _         _ _             
+  / ____(_)   | |           | |                 / ____| |       | (_)            
+ | (___  _  __| | ___ ______| |__   __ _ _ __  | (___ | |_ _   _| |_ _ __   __ _ 
+  \___ \| |/ _` |/ _ \______| '_ \ / _` | '__|  \___ \| __| | | | | | '_ \ / _` |
+  ____) | | (_| |  __/      | |_) | (_| | |     ____) | |_| |_| | | | | | | (_| |
+ |_____/|_|\__,_|\___|      |_.__/ \__,_|_|    |_____/ \__|\__, |_|_|_| |_|\__, |
+                                                            __/ |           __/ |
+                                                           |___/           |___/  
+*/
 
 .side-bar {
   height: 100%;
@@ -49,7 +66,7 @@ header {
   overflow-x: hidden;
   padding-top: 20px;
   margin-top: 12px;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -162,7 +179,7 @@ header {
   margin: 10px;
   padding-top: 8px;
   padding-bottom: 8px;
-  width: 150px;
+  width: 250px;
   font-size: 20px;
   margin-left: 0;
   padding-right: 10px;
@@ -191,7 +208,21 @@ header {
   border-style: none;
 }
 
-/* MAIN CONTENT STYLING */
+/* 
+  __  __       _          _____            _             _   
+ |  \/  |     (_)        / ____|          | |           | |  
+ | \  / | __ _ _ _ __   | |     ___  _ __ | |_ ___ _ __ | |_ 
+ | |\/| |/ _` | | '_ \  | |    / _ \| '_ \| __/ _ \ '_ \| __|
+ | |  | | (_| | | | | | | |___| (_) | | | | ||  __/ | | | |_ 
+ |_|__|_|\__,_|_|_|_|_|  \_____\___/|_| |_|\__\___|_| |_|\__|
+  / ____| |       | (_)                                      
+ | (___ | |_ _   _| |_ _ __   __ _                           
+  \___ \| __| | | | | | '_ \ / _` |                          
+  ____) | |_| |_| | | | | | | (_| |                          
+ |_____/ \__|\__, |_|_|_| |_|\__, |                          
+              __/ |           __/ |                          
+             |___/           |___/                                                                                                                                                         
+*/
 
 .content {
   margin-left: 400px;
@@ -201,7 +232,21 @@ header {
   padding-right: 50px;
 }
 
-/* TODO-ITEM STYLING */
+/*
+  _______        _           _____ _                 
+ |__   __|      | |         |_   _| |                
+    | | ___   __| | ___ ______| | | |_ ___ _ __ ___  
+    | |/ _ \ / _` |/ _ \______| | | __/ _ \ '_ ` _ \ 
+    | | (_) | (_| | (_) |    _| |_| ||  __/ | | | | |
+   _|_|\___/ \__,_|\___/    |_____|\__\___|_| |_| |_|
+  / ____| |       | (_)                              
+ | (___ | |_ _   _| |_ _ __   __ _                   
+  \___ \| __| | | | | | '_ \ / _` |                  
+  ____) | |_| |_| | | | | | | (_| |                  
+ |_____/ \__|\__, |_|_|_| |_|\__, |                  
+              __/ |           __/ |                  
+             |___/           |___/                   
+*/
 
 .todo-item {
   background-color: rgb(236, 240, 240);
@@ -213,7 +258,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   transition: 0.3s;
 }
 
@@ -303,7 +348,16 @@ header {
   color: white;
 }
 
-/* MODAL STYLING FOR NEW TODO, EDIT TODO AND TODO DESCRIPTION*/
+/* 
+  __  __           _       _    _____ _         _ _             
+ |  \/  |         | |     | |  / ____| |       | (_)            
+ | \  / | ___   __| | __ _| | | (___ | |_ _   _| |_ _ __   __ _ 
+ | |\/| |/ _ \ / _` |/ _` | |  \___ \| __| | | | | | '_ \ / _` |
+ | |  | | (_) | (_| | (_| | |  ____) | |_| |_| | | | | | | (_| |
+ |_|  |_|\___/ \__,_|\__,_|_| |_____/ \__|\__, |_|_|_| |_|\__, |
+                                           __/ |           __/ |
+                                          |___/           |___/ 
+*/
 
 .modal-background {
   width: 100vw;
@@ -313,7 +367,6 @@ header {
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
-  display: none;
 }
 
 .modal-container {
@@ -329,7 +382,7 @@ header {
   border-radius: 5px;
   background-color: white;
   margin-top: 8rem;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
 }
 
 .close-modal {
@@ -355,7 +408,26 @@ header {
   background-color: rgb(248, 248, 248);
 }
 
-/* EDIT TODO AND NEW TODO MODAL STYLING */
+/* 
+  ______    _ _ _                     _   _   _               
+ |  ____|  | (_) |                   | | | \ | |              
+ | |__   __| |_| |_    __ _ _ __   __| | |  \| | _____      __
+ |  __| / _` | | __|  / _` | '_ \ / _` | | . ` |/ _ \ \ /\ / /
+ | |___| (_| | | |_  | (_| | | | | (_| | | |\  |  __/\ V  V / 
+ |______\__,_|_|\__|  \__,_|_| |_|\__,_| |_|_\_|\___| \_/\_/  
+ |__   __|      | |       |  \/  |         | |     | |        
+    | | ___   __| | ___   | \  / | ___   __| | __ _| |        
+    | |/ _ \ / _` |/ _ \  | |\/| |/ _ \ / _` |/ _` | |        
+    | | (_) | (_| | (_) | | |  | | (_) | (_| | (_| | |        
+   _|_|\___/ \__,_|\___/  |_|  |_|\___/ \__,_|\__,_|_|        
+  / ____| |       | (_)                                       
+ | (___ | |_ _   _| |_ _ __   __ _                            
+  \___ \| __| | | | | | '_ \ / _` |                           
+  ____) | |_| |_| | | | | | | (_| |                           
+ |_____/ \__|\__, |_|_|_| |_|\__, |                           
+              __/ |           __/ |                           
+             |___/           |___/                           
+*/
 
 .edit-todo-background-visible {
   display: block;
@@ -366,7 +438,7 @@ header {
   font-size: 20px;
   height: 200px;
   text-align: left;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   resize: none;
   border: none;
   margin-left: 10px;
@@ -386,7 +458,7 @@ header {
 
 .todo-modal-due-date-input {
   margin-left: 10px;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   border-radius: 5px;
   border: 1px solid var(--main-primary-color);
   color: var(--main-primary-color);
@@ -451,7 +523,22 @@ header {
   height: 16px;
 }
 
-/* EDIT TODO-ITEM MODAL STYLING */
+/* 
+  ______    _ _ _     _______        _                          
+ |  ____|  | (_) |   |__   __|      | |                         
+ | |__   __| |_| |_     | | ___   __| | ___                     
+ |  __| / _` | | __|    | |/ _ \ / _` |/ _ \                    
+ | |___| (_| | | |_     | | (_) | (_| | (_) |                   
+ |______\__,_|_|\__|    |_|\___/ \__,_|\___/                    
+  __  __           _       _    _____ _         _ _             
+ |  \/  |         | |     | |  / ____| |       | (_)            
+ | \  / | ___   __| | __ _| | | (___ | |_ _   _| |_ _ __   __ _ 
+ | |\/| |/ _ \ / _` |/ _` | |  \___ \| __| | | | | | '_ \ / _` |
+ | |  | | (_) | (_| | (_| | |  ____) | |_| |_| | | | | | | (_| |
+ |_|  |_|\___/ \__,_|\__,_|_| |_____/ \__|\__, |_|_|_| |_|\__, |
+                                           __/ |           __/ |
+                                          |___/           |___/ 
+*/
 
 .edit-todo-modal {
   padding: 0;
@@ -560,7 +647,23 @@ header {
   background-color: var(--main-primary-color);
 }
 
-/* TODO DESCRIPTION MODAL  */
+/* 
+  _____                      _       _   _                      
+ |  __ \                    (_)     | | (_)                     
+ | |  | | ___  ___  ___ _ __ _ _ __ | |_ _  ___  _ __           
+ | |  | |/ _ \/ __|/ __| '__| | '_ \| __| |/ _ \| '_ \          
+ | |__| |  __/\__ \ (__| |  | | |_) | |_| | (_) | | | |         
+ |_____/ \___||___/\___|_|  |_| .__/ \__|_|\___/|_| |_|         
+                              | |                               
+  __  __           _       _  |_|____ _         _ _             
+ |  \/  |         | |     | |  / ____| |       | (_)            
+ | \  / | ___   __| | __ _| | | (___ | |_ _   _| |_ _ __   __ _ 
+ | |\/| |/ _ \ / _` |/ _` | |  \___ \| __| | | | | | '_ \ / _` |
+ | |  | | (_) | (_| | (_| | |  ____) | |_| |_| | | | | | | (_| |
+ |_|  |_|\___/ \__,_|\__,_|_| |_____/ \__|\__, |_|_|_| |_|\__, |
+                                           __/ |           __/ |
+                                          |___/           |___/ 
+*/
 
 .todo-description-modal {
   padding: 0;
@@ -625,7 +728,22 @@ header {
   color: red;
 }
 
-/* NEW TODO ITEM MODAL */
+/* 
+  _   _                 _______        _                        
+ | \ | |               |__   __|      | |                       
+ |  \| | _____      __    | | ___   __| | ___                   
+ | . ` |/ _ \ \ /\ / /    | |/ _ \ / _` |/ _ \                  
+ | |\  |  __/\ V  V /     | | (_) | (_| | (_) |                 
+ |_| \_|\___| \_/\_/      |_|\___/ \__,_|\___/                  
+  __  __           _       _    _____ _         _ _             
+ |  \/  |         | |     | |  / ____| |       | (_)            
+ | \  / | ___   __| | __ _| | | (___ | |_ _   _| |_ _ __   __ _ 
+ | |\/| |/ _ \ / _` |/ _` | |  \___ \| __| | | | | | '_ \ / _` |
+ | |  | | (_) | (_| | (_| | |  ____) | |_| |_| | | | | | | (_| |
+ |_|  |_|\___/ \__,_|\__,_|_| |_____/ \__|\__, |_|_|_| |_|\__, |
+                                           __/ |           __/ |
+                                          |___/           |___/ 
+*/
 
 .new-todo-item-background-visible {
   display: block;
@@ -634,7 +752,7 @@ header {
 .new-todo-item-name {
   font-size: 24px;
   text-align: left;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   resize: none;
   border: none;
   width: 888px;
@@ -649,7 +767,7 @@ header {
   font-size: 20px;
   height: 200px;
   text-align: left;
-  font-family: "Shippori Antique B1", sans-serif;
+  font-family: 'Shippori Antique B1', sans-serif;
   resize: none;
   border: none;
 }
