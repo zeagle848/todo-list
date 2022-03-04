@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Development Notes](#development-notes)
+- [Testing](#testing)
 
 ## Introduction
 
@@ -40,7 +41,8 @@ The application defaults to the home screen which shows all todo items arranged 
 
 The application is controlled by a class module called Todo. Like the library application, the todo application uses session storage. Every time the user adds, deletes or edits a todo item or project the Todo class uses session storage to store the changes. When the class is instantiated, it retrieves the todo and project data from session storage. The program retrieves the todo items by using the `getTodoList()` method. The argument passed to this method determines what set of todo items is returned. `all-projects` returns all todo items regardless of project, `today` returns all todo items due on the current day, `week` returns all todo items due this week and you can also pass a project name to only return todo items associated with that specific project.
 
-### Current Bugs
+## Testing
 
-1. When deleting a project, and all todo items associated with it, it should default to the home screen showing all todo items. Currently, it doesn't display anything at all.
-2. The project dropdown menu for the new todo item modal does not update with the current projects. It only updates when the page is refreshed. For some reason it works fine for the edit todo item modal.
+To run the testing environment we need to deploy the application first. The process is the same as what was outlined in the Getting Started section. We begin by making sure all the dependencies are installed by running `nmp install` in the console and then run the dev server by running `npm run serve`. 
+
+Once the dev server is up and running we simply run `npm run e2e` and cypress should open a window where you run the tests by clicking the `sample_spec.js` file in the same window.
