@@ -5,6 +5,7 @@
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
 - [Development Notes](#development-notes)
+- [Testing](#testing)
 
 ## Introduction
 
@@ -26,7 +27,7 @@ The application should be live on `http://localhost:8080/` if it doesn't open au
 
 ## Development Notes
 
-At its core, this todo list application is very similar to the [library](https://github.com/zeagle848/Library) application I developed. It makes use of forms within a modal, it has to dynamically update the home screen with HTML items, the user has to be ability to edit these items and the storage of the application is controlled through a class module. The difference lies in the complexity.
+At its core, this todo list application is very similar to the [library](https://github.com/zeagle848/Library) application I developed. It makes use of forms within a modal, it has to dynamically update the home screen with HTML items and the user has to be ability to edit these items. The difference lies in its complexity and the way we handle storage
 
 ### Modals and Displaying Todo Items
 
@@ -38,9 +39,15 @@ The application defaults to the home screen which shows all todo items arranged 
 
 ### Control Module
 
-The application is controlled by a class module called Todo. Like the library application, the todo application uses session storage. Every time the user adds, deletes or edits a todo item or project the Todo class uses session storage to store the changes. When the class is instantiated, it retrieves the todo and project data from session storage. The program retrieves the todo items by using the `getTodoList()` method. The argument passed to this method determines what set of todo items is returned. `all-projects` returns all todo items regardless of project, `today` returns all todo items due on the current day, `week` returns all todo items due this week and you can also pass a project name to only return todo items associated with that specific project.
+The application is state controlled rather than class controlled. We have one folder named state that has 4 files within it. Each file serves a specific purpose but the heart of
+the functionality of the application itself is within the storage file. The storage file gets, sets, and removes any data associated with the todo list app. For example if I 
+wanted to query a specific set of todo items I can use the `getTodoItems()` function which has a single `selectedFilter` parameter. I can filter based on a specific project,
+todo items due today, todo items due this week or simply all todo items.
 
-### Current Bugs
+The state object that holds the data for all the todo items and projects is built to be immutable. That means that rather changing data within a single todo item within the state object we returnn a copy of the previous state with only the changes we want. So if we were for example wanting to edit a specific todo items description we would find that single todo item based on its unique ID, update its description and return a whole new state with only change being the description of that specific todo item.
 
-1. When deleting a project, and all todo items associated with it, it should default to the home screen showing all todo items. Currently, it doesn't display anything at all.
-2. The project dropdown menu for the new todo item modal does not update with the current projects. It only updates when the page is refreshed. For some reason it works fine for the edit todo item modal.
+## Testing
+
+To run the testing environment we need to deploy the application first. The process is the same as what was outlined in the Getting Started section. We begin by making sure all the dependencies are installed by running `nmp install` in the console and then run the dev server by running `npm run serve`. 
+
+Once the dev server is up and running we simply run `npm run e2e` and cypress should open a window where you run the tests by clicking the `sample_spec.js` file in the same window.
