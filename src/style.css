@@ -54,6 +54,20 @@ header {
                                                            |___/           |___/  
 */
 
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  border-top: 2px solid var(--main-primary-color);
+  border-bottom: 2px solid var(--main-primary-color);
+  border-radius: 5px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
 .side-bar {
   height: 100%;
   width: 380px;
@@ -84,6 +98,7 @@ header {
   margin-bottom: 10px;
   border-radius: 5px;
   padding-left: 10px;
+  border: none;
 }
 
 .date-container {
@@ -98,6 +113,7 @@ header {
   margin-bottom: 10px;
   border-radius: 5px;
   padding-left: 10px;
+  border: none;
 }
 
 .side-bar-projects {
@@ -108,25 +124,11 @@ header {
   text-align: justify;
 }
 
-.project-item {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  height: 60px;
-  border-top: 2px solid var(--main-primary-color);
-  border-bottom: 2px solid var(--main-primary-color);
-  border-radius: 5px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
 .project-item > h2 {
   margin-left: 10px;
 }
 
-.project-item-selected {
+.project-item.selected {
   background-color: var(--main-lightest-primary-color);
 }
 

@@ -1,177 +1,19 @@
+import Project from './Project';
+import TodoItem from './TodoItem';
+import { getDefaultState } from './debug';
+import { getStateFromStorage, setStateToStorage } from '../services/storage';
+
 let state = {
   todoItems: [],
   projects: [],
 };
 
-function todoItem({
-  name,
-  description,
-  priority,
-  dueDate,
-  project,
-  id,
-  isComplete,
-}) {
-  return { name, description, priority, dueDate, project, id, isComplete };
+function sortByDate({ dueDate: a }, { dueDate: b }) {
+  return new Date(a) - new Date(b);
 }
 
-function projectItem({ name }) {
-  return { name };
-}
-
-function generateID() {
-  return Math.floor(Math.random() * 10000 + 1).toString();
-}
-
-function setStateToStorage({ newState }) {
-  sessionStorage.setItem('my_saved_state', JSON.stringify(newState));
-}
-
-function sortTodoList() {
-  state = {
-    ...state,
-    todoItems: state.todoItems.sort((a, b) => {
-      const dateA = new Date(a.dueDate);
-      const dateB = new Date(b.dueDate);
-      return dateA - dateB;
-    }),
-  };
-}
-
-function setDefaultState() {
-  const todoItems = [];
-  const projects = [];
-
-  const today = new Date();
-  const fullYear = today.getFullYear();
-  const fullMonth = `0${today.getMonth() + 1}`.slice(-2);
-  const fullDay = `0${today.getDate()}`.slice(-2);
-  const currentDate = `${fullYear}-${fullMonth}-${fullDay}`;
-
-  projects.push(projectItem({ name: 'Garden' }));
-  projects.push(projectItem({ name: 'Work' }));
-  projects.push(projectItem({ name: 'Play' }));
-
-  todoItems.push(
-    todoItem({
-      name: 'Mow the lawn',
-      description: 'Can be done with the new lawnmower',
-      priority: 'low',
-      dueDate: currentDate,
-      project: 'Garden',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Plant the roses',
-      description: 'Only plant on the stoep',
-      priority: 'medium',
-      dueDate: '2022-01-03',
-      project: 'Garden',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Cut down the tree',
-      description: 'Call 072 987 2628',
-      priority: 'high',
-      dueDate: '2022-01-09',
-      project: 'Garden',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Call Mike',
-      description: 'Call to organize meeting with Jill',
-      priority: 'high',
-      dueDate: '2022-10-21',
-      project: 'Work',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Do taxes',
-      description: 'From January to February',
-      priority: 'medium',
-      dueDate: currentDate,
-      project: 'Work',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Buy more paperclips',
-      description: 'James needs paperclips too',
-      priority: 'low',
-      dueDate: '2022-10-20',
-      project: 'Work',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Beat little Ricky',
-      description: 'Need to level up to level 67 in borderlands to do this',
-      priority: 'low',
-      dueDate: currentDate,
-      project: 'Play',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Learn Invoker',
-      description: 'Have to learn more heroes',
-      priority: 'medium',
-      dueDate: '2022-10-16',
-      project: 'Play',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  todoItems.push(
-    todoItem({
-      name: 'Buy Death Trash',
-      description: 'Have to support the developers',
-      priority: 'high',
-      dueDate: '2022-10-14',
-      project: 'Play',
-      id: generateID(),
-      isComplete: false,
-    })
-  );
-
-  state = { ...state, todoItems };
-  state = { ...state, projects };
-
-  sortTodoList();
-  setStateToStorage({ newState: state });
-}
-
-export function getState() {
-  return state;
-}
-
-export function setInitialStateFromStorage({ storedState }) {
+function setInitialStateFromStorage() {
+  const storedState = getStateFromStorage();
   if (
     storedState &&
     storedState.todoItems.length !== 0 &&
@@ -179,28 +21,23 @@ export function setInitialStateFromStorage({ storedState }) {
   ) {
     state = storedState;
   } else {
-    setDefaultState();
-    sortTodoList();
-    setStateToStorage({ newState: state });
+    populateAppWithData();
+    state.todoItems = state.todoItems.sort(sortByDate);
+    setStateToStorage(state);
   }
 }
 
-export function initialiseStateFromStorage() {
-  try {
-    return JSON.parse(sessionStorage.getItem('my_saved_state'));
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+export function populateAppWithData() {
+  state = getDefaultState();
 }
 
 export function addProject({ name }) {
   state = {
     ...state,
-    projects: [...state.projects, projectItem({ name })],
+    projects: [...state.projects, Project({ name })],
   };
 
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
   return state;
 }
 
@@ -210,27 +47,26 @@ export function addTodoItem({
   priority,
   dueDate,
   project,
-  id,
   isComplete,
+  id = null,
 }) {
   state = {
     ...state,
     todoItems: [
       ...state.todoItems,
-      todoItem({
+      TodoItem({
         name,
         description,
         priority,
         dueDate,
         project,
-        id,
         isComplete,
+        id,
       }),
-    ],
+    ].sort(sortByDate),
   };
 
-  sortTodoList();
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
   return state;
 }
 
@@ -238,7 +74,7 @@ export function toggleIsCompleteTodoItem(todoItemId) {
   state = {
     ...state,
     todoItems: state.todoItems.map((todoItem) => {
-      if (todoItem.id == todoItemId) {
+      if (todoItem.id === todoItemId) {
         return {
           ...todoItem,
           isComplete: !todoItem.isComplete,
@@ -247,7 +83,7 @@ export function toggleIsCompleteTodoItem(todoItemId) {
       return todoItem;
     }),
   };
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
 }
 
 export function editTodoItem({
@@ -259,56 +95,120 @@ export function editTodoItem({
 }) {
   state = {
     ...state,
-    todoItems: state.todoItems.map((todoItem) => {
-      if (todoItem.id != todoItemId) {
-        return todoItem;
-      }
+    todoItems: state.todoItems
+      .map((todoItem) => {
+        if (todoItem.id !== todoItemId) {
+          return todoItem;
+        }
 
-      return {
-        ...todoItem,
-        id: todoItemId,
-        description: newDescription,
-        priority: newPriority,
-        dueDate: newDueDate,
-        project: newProject,
-      };
-    }),
+        return {
+          ...todoItem,
+          id: todoItemId,
+          description: newDescription,
+          priority: newPriority,
+          dueDate: newDueDate,
+          project: newProject,
+        };
+      })
+      .sort(sortByDate),
   };
-
-  sortTodoList();
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
   return state; // Why do I need to return state here when I'm already setting state to be equal to the new state
 }
 
 export function deleteTodoItem({ todoItemIdToDelete }) {
   state = {
     ...state,
-    todoItems: state.todoItems.filter(
-      (todoItem) => todoItem.id !== todoItemIdToDelete // Same issue as before, why doesn't the explicit comparison work??
-    ),
+    todoItems: state.todoItems
+      .filter((todoItem) => todoItem.id !== todoItemIdToDelete)
+      .sort(sortByDate),
   };
 
-  sortTodoList();
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
   return state;
 }
 
 export function deleteProject({ projectToDelete }) {
   state = {
-    ...state,
     projects: state.projects.filter(
       (project) => project.name !== projectToDelete
     ),
+    todoItems: state.todoItems
+      .filter((todoItem) => todoItem.project !== projectToDelete)
+      .sort(sortByDate),
   };
 
-  state = {
-    ...state,
-    todoItems: state.todoItems.filter(
-      (todoItem) => todoItem.project !== projectToDelete
-    ),
-  };
-
-  sortTodoList();
-  setStateToStorage({ newState: state });
+  setStateToStorage(state);
   return state;
 }
+
+export function getState() {
+  return state;
+}
+
+export function getProjectList() {
+  return state.projects;
+}
+
+export function getTodoItems({ selectedFilter }) {
+  if (selectedFilter === 'all-projects') {
+    return state.todoItems;
+  }
+  if (selectedFilter === 'today') {
+    const today = new Date();
+    const fullYear = today.getFullYear();
+    const fullMonth = `0${today.getMonth() + 1}`.slice(-2);
+    const fullDay = `0${today.getDate()}`.slice(-2);
+    const currentDate = `${fullYear}-${fullMonth}-${fullDay}`;
+    return state.todoItems.filter(
+      (todoItem) => todoItem.dueDate === currentDate
+    );
+  }
+  if (selectedFilter === 'week') {
+    const currentDate = new Date();
+    const week = [];
+
+    for (let i = 1; i <= 7; i += 1) {
+      const first = currentDate.getDate() - currentDate.getDay() + i;
+      const day = new Date(currentDate.setDate(first))
+        .toISOString()
+        .slice(0, 10);
+
+      week.push(day);
+    }
+
+    return state.todoItems.filter((todoItem) =>
+      week.includes(todoItem.dueDate)
+    );
+  }
+  return state.todoItems.filter(
+    (todoItem) => todoItem.project === selectedFilter
+  );
+}
+
+export function getProjectNumbers({ projectName }) {
+  const numberOfProjects = state.todoItems.filter(
+    (todoItem) => todoItem.project === projectName
+  ).length;
+
+  if (!numberOfProjects) {
+    return 0;
+  }
+  return numberOfProjects;
+}
+
+export function getTodoItem({ todoItemId }) {
+  return state.todoItems.find((todoItem) => todoItem.id === todoItemId);
+}
+
+export function deleteAllItems() {
+  state = {
+    todoItems: [],
+    projects: [],
+  };
+
+  return state;
+  setStateToStorage(state);
+}
+
+setInitialStateFromStorage();

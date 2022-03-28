@@ -1,24 +1,26 @@
+// For some reason whenever I click on the project number or project name elements the click
+// isn't propogating, therefore no todoItems are rendered and the project item isn't highlighted.
+
 function renderProject({
   projectName,
-  projectClickFunction,
   projectTodoCount,
-  removeProjectFunction,
+  onProjectSelect,
+  onProjectRemove,
 }) {
   // Set up root elements and variables
   const projectContainer = document.getElementById('side-bar-projects');
-  /* Before, I had an if-else statement to check whether the project item has already been rendered on the side-bar.
-     If it had then I would simply update the number of todo-items associated with the project rather than rebuilding
-     the whole project item on the side bar. Doing so however meant that I had to add an 'exists' property to the
-     project item. I also needed two modules: one to render the projects once the user refreshes the webpage, and one 
-     to update the project side bar. The two modules were called PopulateProjectList and UpdateProject list respectivly. 
-  */
 
   const numOfTodoItems = projectTodoCount;
   const projectItem = document.createElement('div');
   projectItem.classList.add('project-item');
   projectItem.setAttribute('data-project-item-name', `${projectName}`);
 
-  projectItem.addEventListener('click', projectClickFunction);
+  projectItem.addEventListener('click', (event) => {
+    const projectName = event.currentTarget.getAttribute(
+      'data-project-item-name'
+    );
+    onProjectSelect(projectName);
+  });
 
   const projectNameElement = document.createElement('h2');
   projectNameElement.textContent = projectName;
@@ -41,7 +43,12 @@ function renderProject({
   removeProject.textContent = 'X';
   removeProject.id = projectName;
 
-  removeProject.addEventListener('click', removeProjectFunction);
+  removeProject.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const projectName = event.target.id;
+    onProjectRemove(projectName);
+    projectItem.remove();
+  });
 
   projectItemEnd.append(removeProject);
 

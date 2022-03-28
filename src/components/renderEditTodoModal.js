@@ -1,8 +1,22 @@
+import { MODAL_EDIT_ID } from '../constants';
+
+function getPriority() {
+  const highPriorityRadio = document.querySelector('.high-priority-radio');
+  const mediumPriorityRadio = document.querySelector('.medium-priority-radio');
+
+  if (highPriorityRadio.checked) {
+    return 'high';
+  }
+
+  return mediumPriorityRadio.checked ? 'medium' : 'low';
+}
+
 function renderEditTodoModal({
   todoItem,
-  submitEditTodoFunction,
+  onEditModalSubmit,
   allProjects,
   addNewProjectFunction,
+  onEditModalClose,
 }) {
   const rootElement = document.getElementById('root');
   const fragment = document.createDocumentFragment();
@@ -10,6 +24,7 @@ function renderEditTodoModal({
   const modalBackgroundEditTodo = document.createElement('div');
   modalBackgroundEditTodo.classList.add('modal-background');
   modalBackgroundEditTodo.classList.add('edit-todo-background-visible');
+  modalBackgroundEditTodo.setAttribute('id', MODAL_EDIT_ID);
 
   // CREATE MODAL ELEMENTS
 
@@ -217,28 +232,31 @@ function renderEditTodoModal({
 
   // CLOSE MODAL FUNCTIONS
 
-  function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
-    }
-  }
-
-  function exitModalFunction() {
-    removeAllChildNodes(modalBackgroundEditTodo);
-    modalBackgroundEditTodo.remove();
-  }
-
   modalBackgroundEditTodo.addEventListener('click', (event) => {
     if (event.target === modalBackgroundEditTodo) {
-      exitModalFunction();
+      onEditModalClose();
     }
   });
-  exitModal.addEventListener('click', exitModalFunction);
+  exitModal.addEventListener('click', onEditModalClose);
+  submitTodoButton.addEventListener('click', () => {
+    const description = modalContainer
+      .querySelector('.todo-description')
+      .value.trim();
+    const priority = getPriority();
+    const dueDate = modalContainer.querySelector(
+      '.todo-modal-due-date-input'
+    ).value;
+    const project =
+      modalContainer.querySelector('.dropdown-button').textContent;
 
-  // SUBMIT BUTTON EVENT HANDLER
-  submitTodoButton.addEventListener('click', (event) => {
-    submitEditTodoFunction(event);
-    exitModalFunction();
+    onEditModalSubmit({
+      todoId: todoItem.id,
+      description,
+      priority,
+      dueDate,
+      project,
+    });
+    onEditModalClose();
   });
 }
 

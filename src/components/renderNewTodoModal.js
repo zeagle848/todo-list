@@ -1,9 +1,22 @@
 import { format, endOfDay } from 'date-fns';
+import { MODAL_CREATE_ID } from '../constants/elementIds';
+
+function getPriority() {
+  const highPriorityRadio = document.querySelector('.high-priority-radio');
+  const mediumPriorityRadio = document.querySelector('.medium-priority-radio');
+
+  if (highPriorityRadio.checked) {
+    return 'high';
+  }
+
+  return mediumPriorityRadio.checked ? 'medium' : 'low';
+}
 
 function renderNewTodoModal({
   allProjects,
   addNewProjectFunction,
-  submitNewTodoMethod,
+  onCreateModalSubmit,
+  onCreateModalClose,
 }) {
   // CREATE ROOT ELEMENTS
   const rootElement = document.getElementById('root');
@@ -11,7 +24,7 @@ function renderNewTodoModal({
 
   const modalBackgroundNewTodo = document.createElement('div');
   modalBackgroundNewTodo.classList.add('modal-background');
-  modalBackgroundNewTodo.setAttribute('id', 'modal-background-new-todo');
+  modalBackgroundNewTodo.setAttribute('id', MODAL_CREATE_ID);
 
   // CREATE MODAL ELEMENTS
 
@@ -91,6 +104,8 @@ function renderNewTodoModal({
   lowPriorityRadio.setAttribute('name', 'todo-priority');
   lowPriorityRadio.classList.add('priority-radio');
   lowPriorityRadio.classList.add('low-priority-radio');
+  // Default priority selection is 'low'
+  lowPriorityRadio.checked = true;
 
   priorityContainer.append(lowPriorityRadio);
 
@@ -206,29 +221,46 @@ function renderNewTodoModal({
 
   // CLOSE MODAL FUNCTIONS
 
-  function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-      parent.removeChild(parent.firstChild);
-    }
-  }
-
-  function exitModalFunction() {
-    removeAllChildNodes(modalBackgroundNewTodo);
-    modalBackgroundNewTodo.remove();
-  }
-
   modalBackgroundNewTodo.addEventListener('click', (event) => {
     if (event.target === modalBackgroundNewTodo) {
-      exitModalFunction();
+      onCreateModalClose();
     }
   });
-  exitModal.addEventListener('click', exitModalFunction);
+  exitModal.addEventListener('click', onCreateModalClose);
 
   // SUBMIT BUTTON EVENT HANDLER
   submitTodoButton.addEventListener('click', () => {
-    const canClose = submitNewTodoMethod();
-    if (canClose) {
-      exitModalFunction();
+    const todoName = todoItemNameInput.value.trim();
+    const todoDescription = todoItemDescriptionInput.value.trim();
+    const todoDueDate = dateInput.value;
+    const todoPriority = getPriority();
+    const todoProject = dropdownButton.textContent;
+
+    if (todoName === '') {
+      alert('Please name your todo item');
+    }
+
+    if (todoPriority === undefined) {
+      alert('Please provide a priority for your todo item');
+    }
+
+    if (todoProject === 'Choose project...') {
+      alert('Please specify a project for your todo item');
+    }
+
+    if (
+      todoName !== '' &&
+      todoPriority !== undefined &&
+      todoProject !== 'Choose project...'
+    ) {
+      onCreateModalSubmit({
+        name: todoName,
+        description: todoDescription,
+        dueDate: todoDueDate,
+        priority: todoPriority,
+        project: todoProject,
+      });
+      onCreateModalClose();
     }
   });
 }
